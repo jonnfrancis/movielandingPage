@@ -1,0 +1,24 @@
+{% extends "movie/layout.html" %}
+{% load static %}
+
+{% block body %}
+      
+    <img src="../static/movie/img/logo1.png" alt="logo" width="40%" style="position: relative; left: 399px; top: -2px;" class="loggo">
+    <h1 style="position: relative; left: 553px; top: 13px; font-size: 63px; color: rgb(112, 115, 117);" class="notfound">404</h1>
+    <h2 style="position: relative; left: 355px; top: 10px; color: rgb(120, 123, 125);" class="notfound2">Nothing was found at this location.</h2>
+    <div style="position: relative; left: 486px; top: 17px; font-size: 25px; color: rgb(130, 133, 135);" class="notfound3">{{message}}</div>
+    <div style="position: relative; left: 538px; top: 34px; font-size: 22px; color: rgb(109, 113, 116);" class="notfound4">Check back later</div>
+    <a href="{% url 'index' %}"> <button class="btn btn-primary notfound5" style="left: 539px; top: 63px; background-color: rgb(65, 84, 104); border: none; border-radius: 10px;">Go to Home</button></a> 
+
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="{% static 'movie/js/slick-animation.min.js' %}"></script>
+    <script src="{% static 'movie/js/lightslider.js' %}"></script>
+    <script src="{% static 'movie/js/script.js' %}"></script>
+{% endblock %}

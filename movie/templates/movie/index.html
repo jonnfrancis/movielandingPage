@@ -1,0 +1,385 @@
+{% extends "movie/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container mt-3 text-center">
+  <div class="row justify-content-center">
+      <div class="col-md-8 col-12 content">
+          <div id="search">
+              <div id="result-list" class="border-padding mb-3">
+                  <div id="results"></div>
+                  <div id="result-footer" class="pt-4 mt-2"><a href="#" id="show-more">SHOW MORE »</a></div>
+              </div>
+          </div>
+      </div>
+      <div id="list" class="col-md-12">
+          <div class="row justify-content-center">
+              <div class="col-md-8 list-header">
+                <div class="text-center"><button id="searchAgain" class="btn btn-primary">Search Again</button></div>
+                  <div class="d-flex justify-content-between p-3">
+                      <div id="search-term"></div>
+                      <div id="list-count"></div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="row m-3" id="list-results"></div>
+          </div>
+      </div>
+  </div>
+</div>
+<div id="pass2" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+    <!-- slider starts  -->
+  <section id="home" class="iq-main-slider p-0">
+    <div id="home-slider" class="slider m-0 p-0">
+      {% if coolmovies %}
+        {% for movie in coolmovies %}   
+      <div class="slide slick-bg s-bg-{{movie.clasId}}" id="list-item-1" style="background-image: url({{movie.get_pictures.first}}); background-size: cover;">
+        <div class="container-fluid position-relative h-100">
+          <div class="slider-inner h-100">
+            <div class="row align-items-center h--100">
+              <div class="col-xl-6 col-lg-12 col-md-12">
+                <a href="javascript:void(0)">
+                  <!--<div class="channel-logo" data-animation-in="fadeInLeft" data-delay-in="0.5">
+                    <img src="../static/movie/img/logo.png" class="c-logo" alt="" />
+                  </div>-->
+                </a>
+                <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
+                  data-delay-in="0.6">
+                  {{movie.title}}
+                </h1>
+                <div class="d-flex flex-wrap align-items-center fadeInLeft animated" data-animation-in="fadeInLeft"
+                  style="opacity: 1">
+                  <div class="slider-ratting d-flex align-items-center mr-4 mt-2 mt-md-3">
+                    <ul
+                      class="ratting-start p-0 m-0 list-inline text-primary d-flex align-items-center justify-content-left">
+                      <li><i class="bx bxs-star"></i></li>
+                      <li><i class="bx bxs-star"></i></li>
+                      <li><i class="bx bxs-star"></i></li>
+                      <li><i class="bx bxs-star"></i></li>
+                      <li><i class="bx bxs-star-half"></i></li>
+                    </ul>
+                    <span class="text-white ml-2">7.3(imbd)</span>
+                  </div>
+                  <div class="d-flex align-items-center mt-2 mt-md-3">
+                    <span class="badge badge-secondary p-2">{{movie.year}}</span>
+                    <span class="ml-3">{{movie.runtime}} min</span>
+                  </div>
+                </div>
+                <p data-animation-in="fadeInUp">
+                  {{movie.tagline}}
+                </p>
+                <div class="trending-list" data-animation-in="fadeInUp" data-delay-in="1.2">
+                  <div class="text-primary title starring">
+                    Starring :
+                    <span class="text-body">
+                      {%for actor in movie.actors.all%}
+                        {{actor}}{% if not forloop.last %}, {% endif %} 
+                      {% endfor %}
+                    </span>
+                  </div>
+                  <div class="text-primary title genres">
+                    Tags : <span class="text-body">
+                      {% for category in movie.categories.all %}
+                          {{category}}{% if not forloop.last %}, {% endif %} 
+                      {% endfor %}   
+                    </span>
+                  </div>
+                  <div class="text-primary title tag">
+                    Genre :
+                    <span class="text-body">{{movie.type}}</span>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center r-mb-23 mt-4" data-animation-in="fadeInUp" data-delay-in="1.2">
+                  <a href="{%url 'moviePage' movie.id %}" class="btn btn-hover iq-button"><i class="bx bx-play mr-3"></i>Play Now</a>
+                  <a href="{%url 'moviePage' movie.id %}" class="btn btn-link">More Details</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-5 col-lg-12 col-md-12 trailor-video">
+              <a href="{{movie.trailer}}" class="video-open playbtn">
+                <img src="../static/movie/img/play.png" class="play" alt="" />
+                <span class="w-trailor">Watch Trailer</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+        {% endfor %}
+      {% endif %}  
+    </div>
+  </section>
+  <!-- slider ends -->
+
+    <!--trending-section-->
+    <section class="s-margin" id="iq-trending">
+      <div class="container-fluid" id="list-item-2">
+        <div class="row">
+          <div class="col-sm-12 overflow-hidden">
+            <div class="iq-main-header d-flex align-items-center justify-content-between">
+              <h4 class="main-title">Trending</h4>
+            </div>
+            <div class="trending-contens">
+              <div id="trending-slider" class="list-inline p-0 m-0 d-flex align-items-center">
+                {% if random2 %}
+                <div class="tranding-block position-relative" style="background-image: url({{random2.get_pictures.first}});"">
+                  <div class="trending-custom-tab">
+                    <div class="trending-content">
+                      <div id="trending-data1" class="overview-tab tab-pane fade active show">
+                        <div class="trending-info align-items-center w-100 animated fadeInUp">
+                          <a href="javascript:void(0);" tabindex="0">
+                            <div class="res-logo">
+                              <div class="channel-logo">
+                                <img src="../static/movie/img/logo.png" class="c-logo" alt="">
+                              </div>
+                            </div>
+                          </a>
+                          <h1 class="trending-text big-title text-uppercase">{{random2.title}}</h1>
+                          <div class="d-flex align-items-center text-white text-detail">
+                            <span class="badge badge-secondary p-3">18+</span>
+                            <span class="ml-3">3 Seasons</span>
+                            <span class="trending-year">{{random2.year}}</span>
+                          </div>
+                          <div class="d-flex align-items-center series mb-4">
+                            <a href="javascript:void(0);">
+                              <img src="../static/movie/img/trending-label.png" class="img-fluid" alt="">
+                            </a>
+                            <span class="text-gold ml-3">#{{number}} in {{random2.type}} Today</span>
+                          </div>
+                          <p class="trending-dec">
+                            {{random2.storyline}}
+                          </p>
+                          <div class="p-btns">
+                            <div class="d-flex align-items-center p-0">
+                              <a href="{%url 'moviePage' random2.id %}" class="btn btn-hover mr-2" tabindex="0">
+                                <i class="bx bx-play mr-2"></i>
+                                Play Now
+                              </a>
+                              <a href="{%url 'moviePage' random2.id %}" class="btn btn-link" tabindex="0">
+                                <i class="bx bx-plus pr-2"></i>
+                                My List 
+                              </a>
+                            </div>
+                          </div>
+                          <div class="trending-list mt-4">
+                            <div class="text-primary title">
+                              Starring : 
+                              <span class="text-body">
+                                {%for actor in random2.actors.all%}
+                                   {{actor}}{% if not forloop.last %}, {% endif %} 
+                                {% endfor %}
+                              </span>
+                            </div>
+                            <div class="text-primary title">
+                              Genres :
+                              <span class="text-body">
+                                  {% for category in random2.categories.all %}
+                                      {{category}}{% if not forloop.last %}, {% endif %} 
+                                  {% endfor %}
+                              </span>
+                            </div>
+                            <div class="text-primary title">
+                              Creators :
+                              <span class="text-body">
+                                {%for director in random2.directors.all%}
+                                  {{director}}{% if not forloop.last %}, {% endif %} 
+                                {% endfor %}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--trending end--> 
+    <!--another slider-->
+    <section id="main">
+        <h1 class="showcase-heading" id="list-item-3">Showcase</h1>
+        <ul id="autoWidth" class="cs-hidden">
+        {% if kindaCool %}
+            {% for movie in kindaCool %}
+            <li class="item-{{movie.clasId}}">
+                <!--showcase-box------------------->
+                <a href="{%url 'moviePage' movie.id %}">
+                    <div class="showcase-box">
+                        <img src="{{movie.get_pictures.first}}"/>
+                    </div>
+                </a>
+            </li> 
+            {% endfor %}
+        {% endif %}    
+        </ul>
+    </section>
+    <!--latest-movies---------------------->
+    <!--<section id="latest">
+        <h2 class="latest-heading">Latest</h2>
+        <!--slider-------------------
+        <ul id="autoWidth2" class="cs-hidden">
+            <!--slide-box-1------------------
+            {% if kindaCool %}
+               {% for movie in kindaCool %}
+               <li class="item-{{movie.clasId}}">
+                  <div class="latest-box">
+                    <!--img--------
+                    <div class="latest-b-img">
+                        <img src="{{movie.get_background.first}}">
+                    </div>
+                    <!--text----------
+                    <div class="latest-b-text">
+                        <strong>{{movie.title}}</strong>
+                        <p>{{movie.type}}</p>
+                    </div>
+                  </div>
+               </li>
+               {% endfor %}
+            {% endif %}
+        </ul>
+    </section>-->
+    <section id="parallex" class="parallax-window">
+      {% if random %}
+        <div class="container-fluid h-100" id="list-item-4">
+          <div class="row align-items-center justify-content-center h-100 parallaxt-details">
+            <div class="col-lg-4 r-mb-23">
+              <div class="text-left">
+                <a href="javascript:void(0)">
+                  <h1 class="parallax-heading">{{random.title}}</h1>
+                </a>
+                <div class="parallax-ratting d-flex align-items-center mt-3 mb-3">
+                  <ul
+                    class="ratting-start p-o m-0 list-inline text-primary d-flex align-items-center justify-content-left">
+                    <li>
+                      <a href="#" class="text-primary"><i class="bx bxs-star"></i></a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-primary"><i class="pl-2 bx bxs-star"></i></a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-primary"><i class="pl-2 bx bxs-star"></i></a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-primary"><i class="pl-2 bx bxs-star"></i></a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-primary"><i class="pl-2 bx bxs-star-half"></i></a>
+                    </li>
+                  </ul>
+                  <span class="text-white ml-3">7.8(Imbd)</span>
+                </div>
+                <div class="movie-time d-flex align-items-center mb-3">
+                  <div class="badge badge-secondary p-1 mr-2">{{random.year}}</div>
+                  <span class="text-white">{{random.runtime}} min</span>
+                </div>
+                <p style="color: grey;">
+                  {{random.storyline}}
+                </p>
+                <div class="parallax-buttons">
+                  <a href="{%url 'moviePage' random.id %}" class="btn btn-hover">Play Now</a>
+                  <a href="{%url 'moviePage' random.id %}" class="btn btn-link">More Details</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="parallax-img">
+                <a href="#"><img src="{{random.get_pictures.first}}" alt="" class="img-fluid w-100" /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </section>
+  
+    <!--movies---------------------------->
+    <div class="movies-heading" id="list-item-5">
+        <h2>Movies</h2>
+    </div>
+    <section id="movies-list">
+        {% for movie in movies%}
+           <div class="movies-box">
+               <a href="{%url 'moviePage' movie.id %}">
+                   <!--img-->
+                   <div class="movies-img">
+                       <div class="quality">HDRip</div>
+                       <img src="{{movie.get_background.first}}" alt="">
+                   </div>
+                   <!--text-->
+                   <div class="text"><span>{{movie.title}} ({{movie.year}})</span> Full Movie[In English] With English Subtitles | HDRip 1080p HD </div>
+               </a>
+           </div>
+        {% endfor %}
+    </section>
+    <!--btns--------------->
+    <div class="btns">
+        <a href="#">Previous</a>
+        <a href="#">Next</a>
+    </div>
+    <!--footer------------------>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="{% url 'workon' %}">about us</a></li>
+                        <li><a href="#">our services</a></li>
+                        <li><a href="#">privacy policy</a></li>
+                        <li><a href="#">affiliate program</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Get Help</h4>
+                    <ul>
+                        <li><a href="#">fAQ</a></li>
+                        <li><a href="#">shipping</a></li>
+                        <li><a href="#">returns</a></li>
+                        <li><a href="#">order status</a></li>
+                        <li><a href="#">payment options</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Online Shop</h4>
+                    <ul>
+                        <li><a href="#">watch</a></li>
+                        <li><a href="#">bag</a></li>
+                        <li><a href="#">shoes</a></li>
+                        <li><a href="#">dress</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class='bx bxl-facebook'></i></a>
+                        <a href="#"><i class='bx bxl-twitter'></i></a>
+                        <a href="#"><i class='bx bxl-instagram'></i></a>
+                        <a href="#"><i class='bx bxl-linkedin'></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+    
+
+{% endblock %}
+
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="{% static 'movie/js/slick-animation.min.js' %}"></script>
+    <script src="{% static 'movie/js/lightslider.js' %}"></script>
+    <script src="{% static 'movie/js/script.js' %}"></script>
+{% endblock %}
+
+
+
+
+
+
+ 

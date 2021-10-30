@@ -1,0 +1,53 @@
+{% extends "movie/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="banner" style="background-image: url({{pictureMovie.first}}); background-size: cover;">
+    
+    <div class="content">
+        <!--<img src="{{pictureMovie.first}}" alt="" class="image-title">-->
+        <h1 style="font-size: 66px; color: rgb(121, 125, 129);" class="mortal">{{movie.title}}</h1>
+        <h2><span style="font-size: 32px; color: rgb(66, 69, 72);" class="overhere">{{movie.tagline}}</span></h2>
+        <p style="position: relative; color: rgb(109, 113, 116);" class="release">Release Date: {{movie.releaseDate}}   <span class="releasespan" style="position: relative; left: 51px; top: -3px; color: rgb(128, 133, 137);">Runtime: {{movie.runtime}} mins</span></p>
+        <div class="year" style="position: relative; left: -1px; top: -13px; color: rgb(250, 245, 245);">Release Year: {{movie.year}}</div>
+        <div class="type"  style="position: relative; left: 295px; top: -39px; color: rgb(255, 255, 255);">{{movie.type}}</div>
+        <p class="mma" style="position: relative; left: -3px; top: -26px;">{{movie.storyline}}</p>
+        <a href="#" class="play" onclick="toggle()"><i class="las la-play"></i> Watch trailer</a>
+        <div class="slide"></div>
+    </div>
+    <div class="trailer">
+        <iframe width="853" height="480" src="{{movie.trailer}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <i class="bx bx-x close" onclick="toggle()"></i>
+    </div>
+    <!--<img src="{{backgroundMovie.first}}" alt="{{movie.Picture.last}}" class="img">-->
+</div>
+  <ul class="category-list actor-list" style="color: rgb(255, 255, 250);position: relative; left: -286px; top: -22px; display: flex; flex-wrap: wrap; padding: 35px 108px 3px 158px; z-index: -1;">
+    Stars:
+    {% for actor in movie.actors.all %}
+      <li ><a href="{%url 'index' %}?category={{category.id}}" id="category"> {{actor}}</a></li>
+    {% endfor %}
+  </ul>
+  <ul class="category-list actor-list" style="color: rgb(255, 255, 250);display: flex; flex-wrap: wrap;position: relative; left: 319px; top: -118px; will-change: top, left; z-index: -1;">
+    Tags:
+    {% for category in movie.categories.all %}
+      <li ><a href="{%url 'index' %}?category={{category.id}}" id="category"> {{category}}</a></li>
+    {% endfor %}
+  </ul>
+  <ul class="category-list actor-list" style="color: rgb(255, 255, 250); position: relative; left: -124px; top: -126px; display: flex; flex-wrap: wrap; z-index: -1;">
+    Director(s):
+    {% for category in movie.directors.all %}
+      <li ><a href="{%url 'index' %}?category={{category.id}}" id="category"> {{category}}</a></li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="{% static 'movie/js/slick-animation.min.js' %}"></script>
+<script src="{% static 'movie/js/lightslider.js' %}"></script>
+<script src="{% static 'movie/js/script.js' %}"></script>
+{% endblock %}
+      
