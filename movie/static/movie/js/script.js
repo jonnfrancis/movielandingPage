@@ -239,7 +239,7 @@ $(document).ready(function() {
 
 $(function () {
     $(".search-input")
-        .popover({ title: 'Twitter Bootstrap Popover', content: "It's so simple to create a tooltop for my website!" })
+        .popover({ title: 'WAIT!!!', content: "You can't do that. Go search from the homepage ;)" })
         .blur(function () {
             $(this).popover('hide');
         });
