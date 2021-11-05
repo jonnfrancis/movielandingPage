@@ -72,7 +72,7 @@ $('.slider').slick({
         }
     ]
 }).slickAnimation();
-$(".slick-nav").on("click touch", function (e){
+$(".slick-nav").on("click touch",{passive: true}, function (e){
     e.preventDefault();
 
     var arrow = $(this);

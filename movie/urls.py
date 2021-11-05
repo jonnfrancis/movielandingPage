@@ -7,7 +7,8 @@ from . import views
 urlpatterns = [
     path("", views.index, name='index'),
     path("categories", views.category, name='category'),
+    path("actors", views.actor, name='actor'),
+    path("directors", views.director, name='director'),
     path("<int:movie_id>", views.moviePage, name='moviePage'),
     path('workon', views.workon, name='workon'),
-    path('__debug__/', include(debug_toolbar.urls))
 ]

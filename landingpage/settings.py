@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -83,11 +82,7 @@ DATABASES = {
     }
 }
 
-INTERNAL_IPS = [
-    # ...
-    '127.0.0.1',
-    # ...
-]
+
 
 
 # Password validation

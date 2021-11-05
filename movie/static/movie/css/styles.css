@@ -29,7 +29,7 @@ body{
     font-size: var(--normal-font-size);
     transition: .5s;
     background: #141414;
-    overflow-x: hidden;
+     overflow-x: hidden;
 }
   
 a{
@@ -39,6 +39,7 @@ li{
     list-style-type: none;
 }
   
+
 /*===== HEADER =====*/
 .header{
     width: 100%;
@@ -853,20 +854,27 @@ nav .menu-btn{
     right: 0;
     background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(20,20,20,1) 35%, rgba(83,100,141,0) 100%);
 }
-.banner .content img {
-    max-width: 120px;
-}
+
 
 .banner .content {
     max-width: 550px;
     z-index: 1;
 }
 
+.banner .content h1{
+    font-size: 66px;
+    color: rgb(121, 125, 129);
+}
+
 .banner .content h2{
     text-transform: uppercase;
     font-weight: 800;
     letter-spacing: 0.1em;
-    color: var(--color-dark);
+}
+
+.banner .content h2 span{
+    font-size: 32px;
+    color: rgb(109, 113, 116);
 }
 
 
@@ -875,9 +883,37 @@ nav .menu-btn{
     font-weight: 300;
     letter-spacing: 0.384px;
     line-height: 28.86px;
-    color: var(--white-color);
     margin: 15px 0 35px;
     text-align: left;
+    position: relative; 
+    color: rgb(109, 113, 116);
+}
+
+.banner .content p span{
+    position: relative;
+    left: 51px;
+    top: -3px;
+    color: rgb(128, 133, 137);
+}
+
+.year{
+    position: relative;
+    left: -1px;
+    top: -13px;
+    color: rgb(250, 245, 245);
+}
+
+.type{
+    position: relative; 
+    left: 295px; 
+    top: -39px; 
+    color: rgb(255, 255, 255);
+}
+
+.storyline{
+    position: relative; 
+    left: -3px; 
+    top: -26px;
 }
 
 .play{
@@ -936,6 +972,27 @@ nav .menu-btn{
     filter: invert(1);
     max-width: 32px;
 }
+.actor-list{
+    color: rgb(255, 255, 250);
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    z-index: -1;
+}
+.actor-list .tags{
+    left: 319px; 
+    top: -118px; 
+    will-change: top, left;
+}
+.actor-list .director{
+    left: -124px; 
+    top: -126px;
+}
+.actor-list .actor{
+    left: -286px; 
+    top: -22px;
+}
+
 
 
 /* ===== Media Queries ====== */
@@ -1253,4 +1310,68 @@ nav .menu-btn{
 
 .movie-title {
     font-size: 1.2rem;
+}
+
+@media (max-width: 991px){
+    .banner{
+        position: relative;
+        width: 100%;
+        padding: 100px 50px;
+    }
+    .banner .content h1{
+        font-size: 48px; 
+        color: rgb(121, 125, 129); 
+        position: relative; 
+        left: 1px; 
+        top: 12px;
+    }
+    .banner .content h2{
+        font-weight: 400;
+        font-size: 2em;
+        letter-spacing: 0.05em;
+    }
+    .banner .content h2 span{ 
+        left: 0px; 
+        top: 8px;
+    }
+    .banner .content p{
+        font-size: 1em;
+        left: 0px; 
+        top: 11px;
+    }
+    .banner .content p span{
+        left: 51px; 
+        top: -3px;
+    }
+    .year{
+        left: -1px; 
+        top: -3px; 
+        font-size: 15px;
+    }
+    .type{
+        left: 280px; 
+        top: -23px;
+        font-size: 14px;
+    }
+    .storyline{
+        left: -2px; top: -5px; font-size: 13px;
+    }
+    .play{
+        font-size: 15px; 
+        left: -3px; 
+        top: -17px;
+    }
+    .slide{
+        position: relative;
+        bottom: initial;
+        left: 0;
+        width: 250px;
+        height: 150px;
+        margin: 20px 0;
+    }
+
+    .trailer video{
+        max-width: 90%;
+        outline: none;
+    }
 }

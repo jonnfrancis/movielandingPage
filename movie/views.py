@@ -1,12 +1,7 @@
-from django.contrib.auth import authenticate, login, logout
-from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.http.response import JsonResponse
 from django.shortcuts import render
 import random
 import secrets
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
 
 from .models import *
 
@@ -46,6 +41,31 @@ def category(request):
         "movies": movies
     }) 
 
+def actor(request):
+    category_id = request.GET.get('actors',None)
+    if category_id is None:
+        movies = Movie.objects.filter(kindaCool = True)
+    else:
+        movies = Movie.objects.filter(category=category_id)
+    categories = Actor.objects.all()    
+    return render(request, 'movie/categories.html',{
+        "categories": categories,
+        "category_id": category_id,
+        "movies": movies
+    })
+
+def director(request):
+    category_id = request.GET.get('directors',None)
+    if category_id is None:
+        movies = Movie.objects.filter(kindaCool = True)
+    else:
+        movies = Movie.objects.filter(category=category_id)
+    categories = Director.objects.all()    
+    return render(request, 'movie/directors.html',{
+        "categories": categories,
+        "category_id": category_id,
+        "movies": movies
+    })    
 
 def moviePage(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
