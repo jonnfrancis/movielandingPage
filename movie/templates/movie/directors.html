@@ -4,7 +4,7 @@
 {% block body %}
     <div id="tagsh">
       <h1 class="slider-text big-title title text-uppercase text-center">
-        Tags 
+        Directors 
       </h1>
         <ul class="category-list">
           {% for category in categories %}
@@ -22,7 +22,6 @@
                  <a href="{%url 'moviePage' movie.id %}">
                      <!--img-->
                      <div class="movies-img">
-                         <div class="quality">HDRip</div>
                          <img src="{{movie.get_background.first}}" alt="">
                      </div>
                      <!--text-->
