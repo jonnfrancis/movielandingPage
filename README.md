@@ -1,2 +1,2 @@
-#**Bingpot**
+#Bingpot
 ##Movie landing Page
