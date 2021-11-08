@@ -13,6 +13,6 @@ What makes Bingpot a one in a million webpage is the balanced use of all the lib
 * Jquery 3.4.1
 * Bootstrap
 * owl Carousel
-This are just a few of the many dynamic online css and javascript libraries I decided to use. but that is not all that makes BingPot complex. it has a good finish with a good combination of colors but not so much that it becomes overbearing. the colours combine "just right". Also with the help of the following libraries I ensured that the smooth icons and the well shaped fonts joined together and left the website looking like a masterpiece.
+##### This are just a few of the many dynamic online css and javascript libraries I decided to use. but that is not all that makes BingPot complex. it has a good finish with a good combination of colors but not so much that it becomes overbearing. the colours combine "just right". Also with the help of the following libraries I ensured that the smooth icons and the well shaped fonts joined together and left the website looking like a masterpiece.
 * Bootstrap
 * Boxicons
