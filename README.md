@@ -21,6 +21,7 @@ This are just a few of the many dynamic online css and javascript libraries I de
 After seeing all this I am sure you want to know more about this site. I know ;) don't worry about it because I am about to break down everything for you. Now my webpage is based solely on movies, shows and anime. I needed to have access to all these so I looked for an api that had access to all these. That was when I bumped into the OMDB api and placed a few api calls in my javascript and connected it to my search input field.
 
 I was having some trouble at the beginning and decided I need a debugger so I used this:
+
 `$ python -m pip install django-debug-toolbar`
 
 but after finishing my project I removed it from the project.
