@@ -207,14 +207,14 @@ $(document).ready(function() {
                             listResults += '<div class="row">'
                             listResults += '<div class="col-md-6 movielink"><img src="' + listMovieData.Poster + '" style="width: 100%;" /></div>'
                             listResults += '<div class="col-md-6 text-left">'
-                            listResults += '<div class="movie-title">'+ highlight(listMovieData.Title, $(".search-input").val()) +' ('+ listMovieData.Year +')</div>'
+                            listResults += '<div class="movie-title" style="color: white;">'+ highlight(listMovieData.Title, $(".search-input").val()) +' ('+ listMovieData.Year +')</div>'
                             listResults += '<div class="rating-div"><span class="h4 rating">'+ listMovieData.imdbRating +'</span>/10</div>'
                             listResults += '<div class="my-3">'
-                            listResults += '<div>Language: '+ listMovieData.Language + '</div>'
-                            listResults += '<div>Stars: '+ listMovieData.Actors.split(",").slice(0, 3) + ' | <a href="#">Show All »</a></div>'
+                            listResults += '<div style="color: white;">Language: '+ listMovieData.Language + '</div>'
+                            listResults += '<div style="color: white;">Stars: '+ listMovieData.Actors.split(",").slice(0, 3) + ' | <a href="#">Show All »</a></div>'
                             listResults += '</div>'
                             listResults += '<div class="my-3">'
-                            listResults += '<div>'+ listMovieData.Plot.slice(0, 100) + '... <a href="#">Details »</a></div>'
+                            listResults += '<div style="color: white;">'+ listMovieData.Plot.slice(0, 100) + '... <a href="#">Details »</a></div>'
                             listResults += '</div>'
                             listResults += '</div>' // col-6 end
                             listResults += "</div>" // row end
@@ -233,7 +233,7 @@ $(document).ready(function() {
         $("#list").hide()
         $("#result-list").hide()
         $(".search-input").val("")
-        $("#pass2").val("")
+        $("#pass2").show()
     });
 });
 
