@@ -1,5 +1,12 @@
 # **BingPot**
-## Movie landing Page
+### Movie landing Page
+
+## Project Overview
+
+**Project Name:** Bingpot 
+**Project Active:** 2020 - 2021  
+**Client:** Self
+
 run the file by typing this in the terminal:
 
 	`python manage.py runserver`
