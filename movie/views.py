@@ -29,43 +29,51 @@ def index(request):
     })
 
 def category(request):
-    category_id = request.GET.get('categories',None)
+    category_id = request.GET.get('categories', None)
     if category_id is None:
-        movies = Movie.objects.filter(kindaCool = True)
+        movies = Movie.objects.filter(kindaCool=True)
     else:
-        movies = Movie.objects.filter(category=category_id)
-    categories = Category.objects.all()    
-    return render(request, 'movie/categories.html',{
-        "categories": categories,
-        "category_id": category_id,
-        "movies": movies
-    }) 
-
-def actor(request):
-    category_id = request.GET.get('actors',None)
-    if category_id is None:
-        movies = Movie.objects.filter(kindaCool = True)
-    else:
-        movies = Movie.objects.filter(category=category_id)
-    categories = Actor.objects.all()    
-    return render(request, 'movie/categories.html',{
+        movies = Movie.objects.filter(categories=category_id)
+    categories = Category.objects.all()
+    
+    return render(request, 'movie/categories.html', {
         "categories": categories,
         "category_id": category_id,
         "movies": movies
     })
 
-def director(request):
-    category_id = request.GET.get('directors',None)
+
+def actor(request):
+    category_id = request.GET.get('category', None) 
+    
     if category_id is None:
-        movies = Movie.objects.filter(kindaCool = True)
+        movies = Movie.objects.filter(kindaCool=True)
     else:
-        movies = Movie.objects.filter(category=category_id)
-    categories = Director.objects.all()    
-    return render(request, 'movie/directors.html',{
-        "categories": categories,
-        "category_id": category_id,
-        "movies": movies
-    })    
+        movies = Movie.objects.filter(actors__id=category_id)
+    
+    categories = Actor.objects.all()
+    
+    return render(request, 'movie/actors.html', {
+        'categories': categories,
+        'category_id': category_id,
+        'movies': movies,
+    })
+
+def director(request):
+    category_id = request.GET.get('category', None)
+    
+    if category_id is None:
+        movies = Movie.objects.filter(kindaCool=True)
+    else:
+        movies = Movie.objects.filter(directors__id=category_id)
+    
+    categories = Director.objects.all()
+    
+    return render(request, 'movie/directors.html', {
+        'categories': categories,
+        'category_id': category_id,
+        'movies': movies,
+    })  
 
 def moviePage(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
@@ -73,6 +81,20 @@ def moviePage(request, movie_id):
        "movie": movie, 
        "backgroundMovie": movie.get_background.all(),
        "pictureMovie": movie.get_pictures.all()
+    })
+
+def type_view(request):
+    type_id = request.GET.get('type_id', None)
+    if type_id is None:
+        movies = Movie.objects.filter(kindaCool=True)
+    else:
+        movies = Movie.objects.filter(type_id=type_id)
+    types = Type.objects.all()
+
+    return render(request, 'movie/types.html', {
+        "types": types,
+        "type_id": type_id,
+        "movies": movies
     })
 
 def workon(request): 

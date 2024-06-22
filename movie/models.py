@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
+from decimal import Decimal
 # Create your models here.
 
 
@@ -51,6 +52,7 @@ class Movie(models.Model):
     categories = models.ManyToManyField(Category, blank=True, related_name='list_categories')
     type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name='get_type') 
     tagline = models.CharField(max_length=150)
+    imdb_rating = models.DecimalField(max_digits=3, decimal_places=1, default=Decimal('0.0'))
 
     def __str__(self):
         return f"{self.title} - {self.releaseDate}"

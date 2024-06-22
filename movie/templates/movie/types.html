@@ -1,0 +1,54 @@
+{% extends "movie/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div id="tagsh">
+    <h1 class="slider-text big-title title text-uppercase text-center">Genres</h1>
+    <ul class="category-list">
+        {% for type in types %}
+        <li>
+            <a href="{% url 'type' %}?type_id={{ type.id }}" class="type-link" data-type-id="{{ type.id }}"
+                id="category">{{ type.type }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<!--movies---------------------------->
+<div class="movies-heading">
+    <h2 class="my-3 movies-heading"
+        style="text-align: center; font-size: 36px;  background: #395B64; border-radius: 3px; padding-block: 3px; color: #DDE6ED; font-family: 'Playfair Display', serif;">
+        Movies</h2>
+</div>
+<section id="movies-list">
+    {% for movie in movies %}
+    <div class="movies-box {% if forloop.counter > 6 %}hidden{% endif %}">
+        <a href="{% url 'moviePage' movie.id %}">
+            <!--img-->
+            <div class="movies-img">
+                <img src="{{ movie.get_background.first }}" alt="">
+            </div>
+            <!--text-->
+            <div class="text">
+                <span>{{ movie.title }} ({{ movie.year }})</span>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</section>
+
+<div class="btns">
+    <a href="#" id="load-more-btn">Load More</a>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="{% static 'movie/js/slick-animation.min.js' %}"></script>
+<script src="{% static 'movie/js/lightslider.js' %}"></script>
+<script src="{% static 'movie/js/script.js' %}"></script>
+{% endblock %}

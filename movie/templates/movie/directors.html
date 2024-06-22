@@ -3,37 +3,39 @@
 
 {% block body %}
     <div id="tagsh">
-      <h1 class="slider-text big-title title text-uppercase text-center">
-        Tags 
+      <h1 class="slider-text big-title title text-uppercase text-center" >
+        Directors 
       </h1>
         <ul class="category-list">
           {% for category in categories %}
-            <li ><a href="{%url 'director' %}?category={{director.id}}" id="category">{{category}}</a></li>
+            <li class="actors-box {% if forloop.counter > 14 %}hidden{% endif %}"><a href="{% url 'director' %}?category={{ category.id }}" id="category">{{ category }}</a></li>
           {% endfor %}
         </ul>
+        <div class="btns">
+            <a href="#" id="load-more-actors">Load More</a>
+        </div>
     </div>
-        <!--movies---------------------------->
-        <div class="movies-heading">
-          <h2>Movies</h2>
-      </div>
-      <section id="movies-list">
-          {% for movie in movies%}
-             <div class="movies-box">
-                 <a href="{%url 'moviePage' movie.id %}">
-                     <!--img-->
-                     <div class="movies-img">
-                         <div class="quality">HDRip</div>
-                         <img src="{{movie.get_background.first}}" alt="">
-                     </div>
-                     <!--text-->
-                     <div class="text"><span>{{movie.title}} ({{movie.year}})</span> Full Movie[In English] With English Subtitles | HDRip 1080p HD </div>
-                 </a>
-             </div>
-          {% endfor %}
-      </section>
-
-
-
+    
+    <!-- Movies -->
+    <div class="movies-heading">
+        <h2 class="my-3" style="text-align: center; font-size: 36px; background: #395B64; border-radius: 3px; padding-block: 3px; color: #DDE6ED; font-family: 'Playfair Display', serif;">Movies</h2>
+    </div>
+    <section id="movies-list">
+        {% for movie in movies %}
+            <div class="movies-box">
+                <a href="{% url 'moviePage' movie.id %}">
+                    <!-- Image -->
+                    <div class="movies-img">
+                        <img src="{{ movie.get_background.first }}" alt="">
+                    </div>
+                    <!-- Text -->
+                    <div class="text">
+                        <span>{{ movie.title }} ({{ movie.year }})</span> 
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </section>
 {% endblock %}
 
 {% block script %}

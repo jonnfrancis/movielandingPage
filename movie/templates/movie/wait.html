@@ -3,13 +3,15 @@
 
 {% block body %}
       
-    <img src="../static/movie/img/logo1.png" alt="logo" width="40%" style="position: relative; left: 399px; top: -2px;" class="loggo">
-    <h1 style="position: relative; left: 553px; top: 13px; font-size: 63px; color: rgb(112, 115, 117);" class="notfound">404</h1>
-    <h2 style="position: relative; left: 355px; top: 10px; color: rgb(120, 123, 125);" class="notfound2">Nothing was found at this location.</h2>
-    <div style="position: relative; left: 486px; top: 17px; font-size: 25px; color: rgb(130, 133, 135);" class="notfound3">{{message}}</div>
-    <div style="position: relative; left: 538px; top: 34px; font-size: 22px; color: rgb(109, 113, 116);" class="notfound4">Check back later</div>
-    <a href="{% url 'index' %}"> <button class="btn btn-primary notfound5" style="left: 539px; top: 63px; background-color: rgb(65, 84, 104); border: none; border-radius: 10px;">Go to Home</button></a> 
+    <section class="wait my-3">
+        <img src="../static/movie/img/logo1.png" alt="logo" width="20%" class="loggo">
+        <h1 style="font-size: 63px; color: #B1D0E0;" class="notfound my-3">404</h1>
+        <h2 style="color: #526D82;" class="notfound2">Nothing was found at this location.</h2>
+        <div style="font-size: 25px; color: #A5C9CA;" class="notfound3">{{message}}</div>
+        <div style="font-size: 22px; color: #526D82;" class="notfound4">Check back later</div>
+        <a href="{% url 'index' %}"> <button class="btn btn-primary my-2 notfound5" style="background-color: #2C74B3; border: none; border-radius: 10px;">Go to Home</button></a> 
 
+    </section>
 
 
 {% endblock %}
