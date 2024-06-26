@@ -112,15 +112,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CACHE_TTL = 60 * 15
+CACHE_TTL = 900 
 
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': os.environ.get("REDIS_URL"),
+        'LOCATION': os.environ.get('REDIS_URL'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PASSWORD': os.environ.get("REDIS_PASSWORD"),
+            'PASSWORD': os.environ.get('REDIS_PASSWORD'),
         }
     }
 }

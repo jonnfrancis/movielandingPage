@@ -16,51 +16,34 @@ CACHE_TTL = getattr(settings, 'CACHE_TTL', 60 * 5)
 # Create your views here.
 
 def index(request):
-    # Cache keys
-    movies_cache_key = 'movies_data'
-    cool_movies_cache_key = 'cool_movies_data'
-    types_cache_key = 'types_data'
-    kinda_cool_cache_key = 'kinda_cool_movies_data'
+    # Try to fetch from cache first
+    cached_data = cache.get('index_view_data')
+    if cached_data:
+        return render(request, 'movie/index.html', cached_data)
 
-    # Try to get data from cache
-    movies = cache.get(movies_cache_key)
-    cool_movies = cache.get(cool_movies_cache_key)
-    types = cache.get(types_cache_key)
-    kinda_cool = cache.get(kinda_cool_cache_key)
-
-    if not movies:
-        movies = list(Movie.objects.all())
-        for movie in movies:
-            movie.Picture = movie.get_pictures.filter(id=movie.id)
-        cache.set(movies_cache_key, movies, CACHE_TTL)
-
-    if not cool_movies:
-        cool_movies = list(Movie.objects.filter(cool=True))
-        random.shuffle(cool_movies)
-        cache.set(cool_movies_cache_key, cool_movies, CACHE_TTL)
-
-    if not types:
-        types = list(Type.objects.all())
-        cache.set(types_cache_key, types, CACHE_TTL)
-
-    if not kinda_cool:
-        kinda_cool = list(Movie.objects.filter(kindaCool=True))
-        cache.set(kinda_cool_cache_key, kinda_cool, CACHE_TTL)
+    # If not in cache, generate the data
+    movies = list(Movie.objects.prefetch_related('get_pictures', 'get_background').all())
+    cool_movies = list(Movie.objects.filter(cool=True))
+    random.shuffle(cool_movies)
 
     random_movie = secrets.choice(movies)    
-    random_movie2 = random.choice(movies)
+    random_movie2 = secrets.choice(movies)
     number = random.randint(1, 10)
-        
-    return render(request, 'movie/index.html', {
-        "types": types,
+    
+    context = {
+        "types": Type.objects.all(),
         "movies": movies,
         'coolmovies': cool_movies,
-        'kindaCool': kinda_cool,
+        'kindaCool': Movie.objects.filter(kindaCool=True),
         "random": random_movie,
         "random2": random_movie2,
         "number": number
-    })
-
+    }
+    
+    # Cache the generated data
+    cache.set('index_view_data', context, CACHE_TTL)
+    
+    return render(request, 'movie/index.html', context)
 
 def category(request):
     category_id = request.GET.get('categories', None)
