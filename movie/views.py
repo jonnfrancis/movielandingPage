@@ -20,6 +20,7 @@ def index(request):
     cached_data = cache.get('index_view_data')
     if cached_data:
         return render(request, 'movie/index.html', cached_data)
+        print('load by Cache')
 
     # If not in cache, generate the data
     movies = list(Movie.objects.prefetch_related('get_pictures', 'get_background').all())
@@ -39,6 +40,7 @@ def index(request):
         "random2": random_movie2,
         "number": number
     }
+    print('load by db')
     
     # Cache the generated data
     cache.set('index_view_data', context, CACHE_TTL)
@@ -100,6 +102,8 @@ def moviePage(request, movie_id):
         # If not found in cache, fetch from database
         try:
             movie = Movie.objects.get(id=movie_id)
+            print('load by DB')
+
             # Store movie in cache
             cache.set(movie_id, movie, timeout=CACHE_TTL)
         except Movie.DoesNotExist:
