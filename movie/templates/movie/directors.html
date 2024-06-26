@@ -26,7 +26,7 @@
                 <a href="{% url 'moviePage' movie.id %}">
                     <!-- Image -->
                     <div class="movies-img">
-                        <img src="{{ movie.get_background.first }}" alt="">
+                        <img src="{{ movie.get_background.first }}" loading="lazy" alt="">
                     </div>
                     <!-- Text -->
                     <div class="text">
