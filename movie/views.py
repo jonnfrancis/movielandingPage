@@ -14,6 +14,10 @@ def index(request):
     movies = Movie.objects.all()
     for movie in movies:
         movie.Picture= movie.get_pictures.filter(id=movie.id)
+
+    cool_movies = list(Movie.objects.filter(cool=True))
+    random.shuffle(cool_movies)
+
     random_movie=secrets.choice(movies)    
     random_movie2=random.choice(movies)
     number=random.randint(1,10)
@@ -21,7 +25,7 @@ def index(request):
     return render(request, 'movie/index.html',{
         "types": Type.objects.all(),
         "movies" : movies,
-        'coolmovies': Movie.objects.filter(cool=True),
+        'coolmovies': cool_movies,
         'kindaCool': Movie.objects.filter(kindaCool=True),
         "random": random_movie,
         "random2": random_movie2,
