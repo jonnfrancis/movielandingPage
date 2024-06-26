@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-@)ub-k9mevndz1%z!8*^o_y2c2@%n0pimrxr$410j116w1ifpc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', 'movielandingpage.onrender.com' '127.0.0.1' 'localhost']
+ALLOWED_HOSTS = ['.vercel.app', 'movie.johnfrancis.dev', 'movielandingpage.onrender.com' '127.0.0.1' 'localhost']
 
 
 # Application definition
