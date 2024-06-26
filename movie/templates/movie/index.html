@@ -282,7 +282,7 @@
              <a href="{% url 'moviePage' movie.id %}">
                  <!--img-->
                  <div class="movies-img">
-                     <img src="{{ movie.get_background.first }}" alt="">
+                     <img src="{{ movie.get_background.first.image }}" loading="lazy" alt="{{ movie.get_background.first.altText }}">
                  </div>
                  <!--text-->
                  <div class="text">{{ movie.title }} <span class="movie--year badge">{{ movie.year }}</span> <br> <span style="color: #6998AB; text-align: center;">{{ movie.tagline }}</span></div>
