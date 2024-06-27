@@ -9,20 +9,24 @@ from django.urls import reverse
 from .models import *
 
 import json
+import logging
 
-CACHE_TTL = getattr(settings, 'CACHE_TTL', 60 * 5)
+logger = logging.getLogger(__name__)
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', 60 * 15)
    
 
 # Create your views here.
 
 def index(request):
-    # Try to fetch from cache first
-    cached_data = cache.get('index_view_data')
-    if cached_data:
-        return render(request, 'movie/index.html', cached_data)
-        print('load by Cache')
+    try:
+        cached_data = cache.get('index_view_data')
+        if cached_data:
+            logger.info("Index view data loaded from cache.")
+            return render(request, 'movie/index.html', cached_data)
+    except Exception as e:
+        logger.error(f"Error accessing cache: {e}")
 
-    # If not in cache, generate the data
     movies = list(Movie.objects.prefetch_related('get_pictures', 'get_background').all())
     cool_movies = list(Movie.objects.filter(cool=True))
     random.shuffle(cool_movies)
@@ -40,12 +44,12 @@ def index(request):
         "random2": random_movie2,
         "number": number
     }
-    print('load by db')
-    
-    # Cache the generated data
+
     cache.set('index_view_data', context, CACHE_TTL)
+    logger.info("Index view data set to cache.")
     
     return render(request, 'movie/index.html', context)
+
 
 def category(request):
     category_id = request.GET.get('categories', None)
@@ -95,17 +99,16 @@ def director(request):
     })  
 
 def moviePage(request, movie_id):
-    # Try to get the movie from the cache
-    movie = cache.get(movie_id)
-    
-    if not movie:
-        # If not found in cache, fetch from database
+    try:
+        movie = cache.get(movie_id)
+        if not movie:
+            movie = Movie.objects.get(id=movie_id)
+            cache.set(movie_id, movie, timeout=CACHE_TTL)
+        logger.info(f"Movie {movie_id} loaded from cache.")
+    except Exception as e:
+        logger.error(f"Error accessing cache: {e}")
         try:
             movie = Movie.objects.get(id=movie_id)
-            print('load by DB')
-
-            # Store movie in cache
-            cache.set(movie_id, movie, timeout=CACHE_TTL)
         except Movie.DoesNotExist:
             return redirect('/')
     
