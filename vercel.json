@@ -1,18 +1,20 @@
 {
-    "builds": [{
-        "src": "landingpage/wsgi.py",
-        "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
-    }],
-    "routes": [
+    "builds": [
         {
-            "src": "/(.*)",
-            "dest": "landingpage/wsgi.py"
+            "src": "landingpage/wsgi.py",
+            "use": "@vercel/python",
+            "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
         }
     ],
     "functions": {
         "movie/**/*.py": {
             "maxDuration": 15
         }
-    }
+    },
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "landingpage/wsgi.py"
+        }
+    ]
 }
