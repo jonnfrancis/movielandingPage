@@ -48,7 +48,7 @@ def category(request):
         "movies": movies
     })
 
-
+@cache_page(CACHE_TTL)
 def actor(request):
     category_id = request.GET.get('category', None) 
     
@@ -65,6 +65,7 @@ def actor(request):
         'movies': movies,
     })
 
+@cache_page(CACHE_TTL)
 def director(request):
     category_id = request.GET.get('category', None)
     
@@ -97,6 +98,7 @@ def moviePage(request, movie_id):
     }
     return render(request, 'movie/page.html', context)
 
+@cache_page(CACHE_TTL)
 def type_view(request):
     type_id = request.GET.get('type_id', None)
     if type_id is None:
