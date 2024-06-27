@@ -1,18 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 import random
 import secrets
-from django.core.cache import cache
-from django.views.decorators.cache import cache_page
+from django.urls import reverse
 
 from .models import *
 
 import json
-
-CACHE_TTL = 60 * 15
    
 
 # Create your views here.
-@cache_page(CACHE_TTL)
+
 def index(request):
     movies = Movie.objects.all()
     for movie in movies:
@@ -83,10 +80,7 @@ def director(request):
     })  
 
 def moviePage(request, movie_id):
-    try:
-        movie = Movie.objects.get(id=movie_id)
-    except Movie.DoesNotExist:
-        return redirect('/')
+    movie = Movie.objects.get(id=movie_id)
     return render(request, 'movie/page.html',{
        "movie": movie, 
        "backgroundMovie": movie.get_background.all(),
