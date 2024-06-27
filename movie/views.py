@@ -11,7 +11,6 @@ import json
 CACHE_TTL = 60 * 15
 # Create your views here.
 
-@cache_page(CACHE_TTL)
 def index(request):
     movies = Movie.objects.all()
     for movie in movies:
@@ -34,6 +33,7 @@ def index(request):
         "number": number
     })
 
+@cache_page(CACHE_TTL)
 def category(request):
     category_id = request.GET.get('categories', None)
     if category_id is None:
