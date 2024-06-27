@@ -1,7 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import random
 import secrets
-from django.urls import reverse
 
 from .models import *
 
@@ -80,7 +79,10 @@ def director(request):
     })  
 
 def moviePage(request, movie_id):
-    movie = Movie.objects.get(id=movie_id)
+    try:
+        movie = Movie.objects.get(id=movie_id)
+    except Movie.DoesNotExist:
+        return redirect('/')
     return render(request, 'movie/page.html',{
        "movie": movie, 
        "backgroundMovie": movie.get_background.all(),
