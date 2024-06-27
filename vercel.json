@@ -9,5 +9,10 @@
             "src": "/(.*)",
             "dest": "landingpage/wsgi.py"
         }
-    ]
+    ],
+    "functions": {
+        "movie/**/*.py": {
+            "maxDuration": 15
+        }
+    }
 }
