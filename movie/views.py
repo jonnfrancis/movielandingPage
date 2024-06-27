@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import random
 import secrets
 from django.core.cache import cache
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page, cache_control
 
 from .models import *
 
@@ -13,7 +13,6 @@ CACHE_TTL = 60 * 15
 
 def index(request):
     movies = Movie.objects.prefetch_related('get_pictures', 'get_background').all()
-    movies['Cache-Control'] = 'public, max-age=900'
     
     for movie in movies:
         movie.Picture= movie.get_pictures.filter(id=movie.id)
@@ -25,15 +24,19 @@ def index(request):
     random_movie2=random.choice(movies)
     number=random.randint(1,10)
         
-    return render(request, 'movie/index.html',{
+    context = {
         "types": Type.objects.all(),
-        "movies" : movies,
+        "movies": movies,
         'coolmovies': cool_movies,
         'kindaCool': Movie.objects.filter(kindaCool=True),
         "random": random_movie,
         "random2": random_movie2,
         "number": number
-    })
+    }
+    
+    response = render(request, 'movie/index.html', context)
+    response['Cache-Control'] = 'public, max-age=900'
+    return response
 
 @cache_page(CACHE_TTL)
 def category(request):
