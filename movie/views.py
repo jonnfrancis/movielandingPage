@@ -12,16 +12,33 @@ CACHE_TTL = 60 * 15
 # Create your views here.
 
 def index(request):
-    
-    movies = cache.get('movies')
-    if not movies:
-        movies = Movie.objects.prefetch_related('get_pictures', 'get_background').all()
-        cache.set('movies', movies, 60 * 15)
-    
+    movies = Movie.objects.prefetch_related('get_pictures', 'get_background').all()
+
+    cool_movies_cache_key = 'cool_movies_data'
+    types_cache_key = 'types_data'
+    kinda_cool_cache_key = 'kinda_cool_movies_data'
 
     for movie in movies:
         movie.Picture= movie.get_pictures.filter(id=movie.id)
 
+
+    cool_movies = cache.get(cool_movies_cache_key)
+    types = cache.get(types_cache_key)
+    kinda_cool = cache.get(kinda_cool_cache_key)
+
+    if not cool_movies:
+        cool_movies = list(Movie.objects.filter(cool=True))
+        random.shuffle(cool_movies)
+        cache.set(cool_movies_cache_key, cool_movies, CACHE_TTL)
+
+    if not types:
+        types = list(Type.objects.all())
+        cache.set(types_cache_key, types, CACHE_TTL)
+
+    if not kinda_cool:
+        kinda_cool = list(Movie.objects.filter(kindaCool=True))
+        cache.set(kinda_cool_cache_key, kinda_cool, CACHE_TTL)
+    
     cool_movies = list(Movie.objects.filter(cool=True))
     random.shuffle(cool_movies)
 
