@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 import random
 import secrets
 from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 
 from .models import *
 
@@ -10,6 +11,7 @@ import json
 CACHE_TTL = 60 * 15
 # Create your views here.
 
+@cache_page(CACHE_TTL)
 def index(request):
     movies = Movie.objects.all()
     for movie in movies:
