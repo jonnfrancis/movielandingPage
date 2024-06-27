@@ -112,8 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CACHE_TTL = 900 
-
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
