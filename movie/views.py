@@ -11,7 +11,6 @@ import json
 CACHE_TTL = 60 * 15
 # Create your views here.
 
-@cache_page(CACHE_TTL)
 def index(request):
     movies = Movie.objects.prefetch_related('get_pictures', 'get_background').all()
     
@@ -25,16 +24,20 @@ def index(request):
     random_movie2=random.choice(movies)
     number=random.randint(1,10)
         
-    return render(request, 'movie/index.html',{
+    context = {
         "types": Type.objects.all(),
-        "movies" : movies,
+        "movies": movies,
         'coolmovies': cool_movies,
         'kindaCool': Movie.objects.filter(kindaCool=True),
         "random": random_movie,
         "random2": random_movie2,
         "number": number
-    })
-
+    }
+    
+    response = render(request, 'movie/index.html', context)
+    response['Cache-Control'] = 'public, max-age=900'
+    return response
+    
 @cache_page(CACHE_TTL)
 def category(request):
     category_id = request.GET.get('categories', None)
