@@ -10,10 +10,10 @@ import json
    
 CACHE_TTL = 60 * 15
 # Create your views here.
+
 @cache_page(CACHE_TTL)
 def index(request):
     movies = Movie.objects.prefetch_related('get_pictures', 'get_background').all()
-    movies['Cache-Control'] = 'public, max-age=900'
     
     for movie in movies:
         movie.Picture= movie.get_pictures.filter(id=movie.id)
