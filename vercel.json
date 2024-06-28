@@ -9,10 +9,5 @@
             "src": "/(.*)",
             "dest": "landingpage/wsgi.py"
         }
-    ],
-    "functions": {
-        "api/**/*.py": {
-            "maxDuration": 15
-        }
-    }
+    ]
 }
