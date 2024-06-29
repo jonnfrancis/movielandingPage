@@ -35,6 +35,12 @@
         #loading-screen.hidden {
             display: none;
         }
+        .load.invisible {
+            display: none;
+        }
+        .load.visible {
+            display: block;
+        }
     </style>    
 
     <!-- Google tag (gtag.js) -->
@@ -49,6 +55,10 @@
 </head>
 
 <body id="body-pd">
+    <div id="loading-screen">
+        <dotlottie-player src="{% static 'movies/img/popcorn.json'  %}" background="transparent" speed="1" style="width: 300px; height: 300px" direction="1" playMode="normal" loop autoplay></dotlottie-player>
+    </div>
+    <div class="load invisible">
     <header class="header" id="header">
         <div class="header__toggle">
             <i class="las la-bars" id="header-toggle"></i>
@@ -101,9 +111,7 @@
         </nav>
     </div>
 
-    <div id="loading-screen">
-        <dotlottie-player src="https://lottie.host/3dd1be0b-f781-4265-8b00-9cca31560b30/GoUyT47GqR.json" background="transparent" speed="1" style="width: 300px; height: 300px" direction="1" playMode="normal" loop controls autoplay></dotlottie-player>
-    </div>
+    
 
     <div id="pass">
         {% block body %}
@@ -157,6 +165,7 @@
             </div>
         </div>
     </footer>
+    </div>
     
 
     <!------ MAIN JS  ------>
@@ -164,6 +173,16 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="{% static 'movie/js/script.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const load = document.getElementsByClassName('load')
+            loadingScreen.classList.add('hidden');
+            load.classList.remove('invisible')
+            load.classList.add('visible')
+            
+        });
+    </script>
     {% endblock %}
 </body>
 
