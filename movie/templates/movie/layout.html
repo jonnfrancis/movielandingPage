@@ -176,15 +176,25 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="{% static 'movie/js/script.js' %}"></script>
     <script>
-        window.onload = function() {
-            // Hide the loading screen
-            const loadingScreen = document.getElementById('loading-screen');
-            loadingScreen.classList.add('hidden');
-            
-            // Show the main content
-            const mainContent = document.getElementById('main-content');
-            mainContent.style.display = 'block';
-        };
+        const loadingScreen = document.getElementById('loading-screen');
+        const mainContent = document.getElementById('main-content');
+        $.ajax ({
+            type: 'GET',
+            url: '/',
+            success: function(res) {
+                setTimeout(() => {
+                   loadingScreen.classList.add('hidden')
+                    console.log("success") 
+                    mainContent.style.display = 'block';
+
+                }, 500)
+                
+            },
+            error: function(er) {
+                console.log("error")
+            }
+        })
+
     </script>
     {% endblock %}
 </body>
