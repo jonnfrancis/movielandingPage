@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import random
 import secrets
 from django.core.cache import cache
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page, cache_control
 
 from .models import *
 
@@ -37,7 +37,7 @@ def index(request):
     response = render(request, 'movie/index.html', context)
     response['Cache-Control'] = 'public, max-age=900'
     return response
-    
+
 @cache_page(CACHE_TTL)
 def category(request):
     category_id = request.GET.get('categories', None)
