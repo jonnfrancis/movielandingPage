@@ -12,7 +12,7 @@ CACHE_TTL = 60 * 15
 # Create your views here.
 
 def index(request):
-    movies = Movie.objects.prefetch_related('get_pictures', 'get_background').all()
+    movies = Movie.objects.all()
     
     for movie in movies:
         movie.Picture= movie.get_pictures.filter(id=movie.id)
