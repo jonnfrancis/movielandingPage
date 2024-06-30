@@ -1,17 +1,19 @@
 {
-    "builds": [{
-        "src": "landingpage/wsgi.py",
-        "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
-    }],
+    "functions": {
+      "api/index.py": {
+        "runtime": "python3.9",
+        "maxDuration": 15
+      }
+    },
     "routes": [
-        {
-            "src": "/api/index",
-            "dest": "/api/index.py"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "landingpage/wsgi.py"
-        }
+      {
+        "src": "/api/index",
+        "dest": "/api/index.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "landingpage/wsgi.py"
+      }
     ]
-}
+  }
+  
