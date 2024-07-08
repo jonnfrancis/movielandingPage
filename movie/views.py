@@ -54,13 +54,33 @@ def index(request):
 
 class MovieJsonListView(View):
     def get(self, *args, **kwargs):
-        upper = kwargs.get('num_movies')
+        upper = int(self.request.GET.get('num_movies', 6))
         lower = upper - 6
-        movies = list(Movie.objects.prefetch_related('get_pictures', 'get_background').values()[lower:upper])
-        movies_size = len(Movie.objects.all())
-        size = True if upper >= movies_size else False
-        return JsonResponse({'data': movies, 'max': size}, safe=False)
+        
+        # Check if the data is in the cache
+        cache_key = f'movies_{lower}_{upper}'
+        movies = cache.get(cache_key)
 
+        if not movies:
+            # If not, fetch the data from the database
+            movies_queryset = Movie.objects.prefetch_related('get_pictures', 'get_background')[lower:upper]
+            movies = []
+            for movie in movies_queryset:
+                movies.append({
+                    'id': movie.id,
+                    'title': movie.title,
+                    'year': movie.year,
+                    'tagline': movie.tagline,
+                    'type': movie.type,
+                    'background': movie.get_background.first().url if movie.get_background.exists() else ''
+                })
+
+            # Cache the data
+            cache.set(cache_key, movies, timeout=3600)  # Cache timeout set to 1 hour
+
+        movies_size = len(Movie.objects.all())
+        size = upper >= movies_size
+        return JsonResponse({'data': movies, 'max': size}, safe=False)
 
 @cache_page(CACHE_TTL)
 def category(request):

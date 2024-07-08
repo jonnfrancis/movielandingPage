@@ -835,6 +835,12 @@ li.slide-item .block-description .parallax-ratting span{
     align-items: center;
     flex-wrap: wrap;
 }
+.movies-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
 
 .btns{
     display: flex;

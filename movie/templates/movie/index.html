@@ -282,7 +282,7 @@
     must-watch films</p>
 
 </div>
-<section id="movies-list-home">
+<section class="movies-list" id="movies-list-home">
   <!-- {% for movie in movies %}
   <div class="movies-box {% if forloop.counter > 6 %}hidden{% endif %}">
     <a href="{% url 'moviePage' movie.id %}">
@@ -340,7 +340,7 @@
           data.map(movie => {
             console.log(movie.id)
             movieList.innerHTML +=  ` <div class="movies-box">
-                                   <a href="/movie/${movie.id}">
+                                   <a href="/${movie.id}">
                                         <div class="movies-img">
                                             <img src="${movie.background}" loading="lazy" alt="">
                                         </div>
@@ -352,7 +352,7 @@
           })
           if (max_size) {
             console.log('done')
-            btns.innerHTML = "<h4>Cinematic recommendation complete 😉</h4>"
+            btns.innerHTML = "<h4>Cinematic recommendation complete 🍻🍿  </h4>"
           }
         }, 500)
       },
@@ -365,7 +365,7 @@
   handleGetData()
   loadBtn.addEventListener('click', (e) => {
     e.preventDefault()
-    visible += 3
+    visible += 6
     handleGetData()
   })
 </script>
