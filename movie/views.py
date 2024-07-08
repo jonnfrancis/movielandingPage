@@ -66,13 +66,15 @@ class MovieJsonListView(View):
             movies_queryset = Movie.objects.prefetch_related('get_pictures', 'get_background')[lower:upper]
             movies = []
             for movie in movies_queryset:
+                background = movie.get_background.first()
+                background_url = background.url if background else ''  # Ensure background is accessed correctly
                 movies.append({
                     'id': movie.id,
                     'title': movie.title,
                     'year': movie.year,
                     'tagline': movie.tagline,
                     'type': movie.type,
-                    'background': movie.get_background.first() if movie.get_background.exists() else ''
+                    'background': background_url
                 })
 
             # Cache the data
