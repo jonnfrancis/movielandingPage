@@ -54,7 +54,7 @@ def index(request):
 
 class MovieJsonListView(View):
     def get(self, *args, **kwargs):
-        movies = list(Movie.objects.values())
+        movies = list(Movie.objects.prefetch_related('get_pictures', 'get_background').values())
         return JsonResponse({'data': movies}, safe=False)
 
 
