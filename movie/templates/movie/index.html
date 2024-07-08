@@ -299,7 +299,9 @@
   {% endfor %}
 </section>
 
-<div class="spinner-box"></div>
+<div style="display: flex;" class="spinner-box">
+  <lottie-player src="{% static 'movie/img/spinner.json' %}" background="transparent"  speed="1"  style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+</div>
 
 <!-- Load More Button -->
 <div class="btns">
@@ -315,6 +317,7 @@
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script src="{% static 'movie/js/slick-animation.min.js' %}"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <script src="{% static 'movie/js/lightslider.js' %}"></script>
 <script src="{% static 'movie/js/script.js' %}"></script>
 <script>
@@ -346,7 +349,8 @@
   }
 
   handleGetData()
-  loadBtn.addEventListener('click', () => {
+  loadBtn.addEventListener('click', (e) => {
+    e.preventDefault()
     visible += 3
     handleGetData()
   })
