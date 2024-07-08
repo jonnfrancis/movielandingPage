@@ -56,7 +56,7 @@ class MovieJsonListView(View):
     def get(self, *args, **kwargs):
         upper = int(self.request.GET.get('num_movies', 6))
         lower = upper - 6
-        
+
         # Check if the data is in the cache
         cache_key = f'movies_{lower}_{upper}'
         movies = cache.get(cache_key)
@@ -67,21 +67,21 @@ class MovieJsonListView(View):
             movies = []
             for movie in movies_queryset:
                 background = movie.get_background.first()
-                background_url = background.photo.url if background and hasattr(background, 'photo') else ''  # Ensure background is accessed correctly
+                background_url = background.image if background else ''  # Access the background image URL
 
                 movies.append({
                     'id': movie.id,
                     'title': movie.title,
                     'year': movie.year,
                     'tagline': movie.tagline,
-                    'type': str(movie.type),  # Convert Type object to string
+                    'type': movie.type.type,  # Access the type field from the Type model
                     'background': background_url
                 })
 
             # Cache the data
             cache.set(cache_key, movies, timeout=3600)  # Cache timeout set to 1 hour
 
-        movies_size = len(Movie.objects.all())
+        movies_size = Movie.objects.count()
         size = upper >= movies_size
         return JsonResponse({'data': movies, 'max': size}, safe=False)
 
