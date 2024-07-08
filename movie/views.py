@@ -4,6 +4,7 @@ import secrets
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page, cache_control
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import *
@@ -45,8 +46,9 @@ def index(request):
         "number": number
     }
     
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return render(request, 'movie/movies_list.html', {'movies': movies})
+    if request.is_ajax():
+        html = render_to_string('movie/movie_list.html', {'movies': movies})
+        return JsonResponse({'html': html})
     else:
         response = render(request, 'movie/index.html', context)
         response['Cache-Control'] = 'public, max-age=900'
