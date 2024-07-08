@@ -342,10 +342,10 @@
             movieList.innerHTML +=  ` <div class="movies-box">
                                    <a href="/${movie.id}">
                                         <div class="movies-img">
-                                            <img src="${movie.background}" loading="lazy" alt="">
+                                            <img src="${movie.get_background.first}" loading="lazy" alt="">
                                         </div>
                                         <div class="text">${movie.title} <span class="movie--year badge">${movie.year}</span> <br> <span style="color: #6998AB; text-align: center;">${movie.tagline}</span></div>
-                                        <div class="movie-type badge badge-secondary"><span>${movie.type}</span></div>
+                                        <div class="movie-type badge badge-secondary"><span>${movie.type.type}</span></div>
                                     </a>
                                 </div>`;
             
