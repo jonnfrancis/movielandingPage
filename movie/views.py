@@ -15,28 +15,17 @@ CACHE_TTL = 60 * 15
 # Create your views here.
 
 def index(request):
-    page_number = request.GET.get('page', 1)
-    movies_list = Movie.objects.all()
-    
-    # Paginate movies, showing 10 movies per page
-    paginator = Paginator(movies_list, 6)
-    
-    try:
-        movies = paginator.page(page_number)
-    except PageNotAnInteger:
-        movies = paginator.page(1)
-    except EmptyPage:
-        movies = paginator.page(paginator.num_pages)
+    movies = Movie.objects.all()
     
     for movie in movies:
-        movie.Picture = movie.get_pictures.filter(id=movie.id)
+        movie.Picture= movie.get_pictures.filter(id=movie.id)
 
     cool_movies = list(Movie.objects.filter(cool=True))
     random.shuffle(cool_movies)
 
-    random_movie = secrets.choice(movies_list)
-    random_movie2 = random.choice(movies_list)
-    number = random.randint(1, 10)
+    random_movie=secrets.choice(movies)    
+    random_movie2=random.choice(movies)
+    number=random.randint(1,10)
         
     context = {
         "types": Type.objects.all(),
@@ -47,7 +36,7 @@ def index(request):
         "random2": random_movie2,
         "number": number
     }
-
+    
     response = render(request, 'movie/index.html', context)
     response['Cache-Control'] = 'public, max-age=900'
     return response
