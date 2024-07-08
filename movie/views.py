@@ -67,13 +67,14 @@ class MovieJsonListView(View):
             movies = []
             for movie in movies_queryset:
                 background = movie.get_background.first()
-                background_url = background.url if background else ''  # Ensure background is accessed correctly
+                background_url = background.photo.url if background and hasattr(background, 'photo') else ''  # Ensure background is accessed correctly
+
                 movies.append({
                     'id': movie.id,
                     'title': movie.title,
                     'year': movie.year,
                     'tagline': movie.tagline,
-                    'type': movie.type,
+                    'type': str(movie.type),  # Convert Type object to string
                     'background': background_url
                 })
 
