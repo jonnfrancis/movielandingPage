@@ -46,13 +46,10 @@ def index(request):
         "random2": random_movie2,
         "number": number
     }
-    
-    if request.is_ajax():
-        return render(request, 'movie/movies_list.html', {'movies': movies})
-    else:
-        response = render(request, 'movie/index.html', context)
-        response['Cache-Control'] = 'public, max-age=900'
-        return response
+
+    response = render(request, 'movie/index.html', context)
+    response['Cache-Control'] = 'public, max-age=900'
+    return response
 
 
 @cache_page(CACHE_TTL)
