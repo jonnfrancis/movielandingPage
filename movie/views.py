@@ -4,6 +4,7 @@ import secrets
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page, cache_control
 from django.http import JsonResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import *
 
@@ -13,20 +14,26 @@ CACHE_TTL = 60 * 15
 # Create your views here.
 
 def index(request):
-    if request.path.startswith('/api/'):
-        return handle_index_api(request)
-        
-    movies = Movie.objects.all()
+    page_number = request.GET.get('page', 1)
+    movies_list = Movie.objects.all()
+    paginator = Paginator(movies_list, 6)
+    
+    try:
+        movies = paginator.page(page_number)
+    except PageNotAnInteger:
+        movies = paginator.page(1)
+    except EmptyPage:
+        movies = paginator.page(paginator.num_pages)
     
     for movie in movies:
-        movie.Picture= movie.get_pictures.filter(id=movie.id)
+        movie.Picture = movie.get_pictures.filter(id=movie.id)
 
     cool_movies = list(Movie.objects.filter(cool=True))
     random.shuffle(cool_movies)
 
-    random_movie=secrets.choice(movies)    
-    random_movie2=random.choice(movies)
-    number=random.randint(1,10)
+    random_movie = secrets.choice(movies_list)
+    random_movie2 = random.choice(movies_list)
+    number = random.randint(1, 10)
         
     context = {
         "types": Type.objects.all(),
@@ -38,33 +45,13 @@ def index(request):
         "number": number
     }
     
-    response = render(request, 'movie/index.html', context)
-    response['Cache-Control'] = 'public, max-age=900'
-    return response
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'movie/movies_list.html', {'movies': movies})
+    else:
+        response = render(request, 'movie/index.html', context)
+        response['Cache-Control'] = 'public, max-age=900'
+        return response
 
-def handle_index_api(request):
-    movies = list(Movie.objects.all())
-    for movie in movies:
-        movie.Picture = movie.get_pictures.filter(id=movie.id)
-
-    cool_movies = list(Movie.objects.filter(cool=True))
-    random.shuffle(cool_movies)
-
-    random_movie = secrets.choice(movies)
-    random_movie2 = random.choice(movies)
-    number = random.randint(1, 10)
-
-    response_data = {
-        "types": list(Type.objects.all().values()),
-        "movies": [movie.id for movie in movies],
-        'coolmovies': [movie.id for movie in cool_movies],
-        'kindaCool': list(Movie.objects.filter(kindaCool=True).values()),
-        "random": random_movie.id,
-        "random2": random_movie2.id,
-        "number": number
-    }
-
-    return JsonResponse(response_data)
 
 @cache_page(CACHE_TTL)
 def category(request):
