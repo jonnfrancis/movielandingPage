@@ -282,25 +282,24 @@
     must-watch films</p>
 
 </div>
-<section id="movies-list">
-  {% for movie in movies %}
+<section id="movies-list-home">
+  <!-- {% for movie in movies %}
   <div class="movies-box {% if forloop.counter > 6 %}hidden{% endif %}">
     <a href="{% url 'moviePage' movie.id %}">
-      <!--img-->
       <div class="movies-img">
         <img src="{{ movie.get_background.first }}" loading="lazy" alt="">
       </div>
-      <!--text-->
       <div class="text">{{ movie.title }} <span class="movie--year badge">{{ movie.year }}</span> <br> <span
           style="color: #6998AB; text-align: center;">{{ movie.tagline }}</span></div>
       <div class="movie-type badge badge-secondary"><span>{{ movie.type }}</span></div>
     </a>
   </div>
-  {% endfor %}
+  {% endfor %} -->
 </section>
 
-<div style="display: flex; justify-content: center;" class="spinner-box">
-  <lottie-player src="{% static 'movie/img/spinner.json' %}" background="transparent"  speed="1"  style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+<div style="display: flex; justify-content: center;" class="spinner-box not-visible">
+  <lottie-player src="{% static 'movie/img/spinner.json' %}" background="transparent" speed="1"
+    style="width: 150px; height: 150px;" loop autoplay></lottie-player>
 </div>
 
 <!-- Load More Button -->
@@ -321,7 +320,7 @@
 <script src="{% static 'movie/js/lightslider.js' %}"></script>
 <script src="{% static 'movie/js/script.js' %}"></script>
 <script>
-  const movieList = document.getElementById('movie-list')
+  const movieList = document.getElementById('movie-list-home')
   const spinnerBox = document.getElementById('spinner-box')
   const loadBtn = document.getElementById('load-more-btn1')
   const btns = document.getElementById('btns')
@@ -336,13 +335,24 @@
         max_size = response.max
         const data = response.data
         spinnerBox.classList.remove('not-visible')
-        setTimeout(()=> {
+        setTimeout(() => {
           spinnerBox.classList.add('not-visible')
           data.map(movie => {
-          console.log(movie.id)
-        })
+            console.log(movie.id)
+            var movie_html = `
+                                <div class="movies-box">
+                                    <a href="/movie/${movie.id}">
+                                        <div class="movies-img">
+                                            <img src="${movie.background}" loading="lazy" alt="">
+                                        </div>
+                                        <div class="text">${movie.title} <span class="movie--year badge">${movie.year}</span> <br> <span style="color: #6998AB; text-align: center;">${movie.tagline}</span></div>
+                                        <div class="movie-type badge badge-secondary"><span>${movie.type}</span></div>
+                                    </a>
+                                </div>`;
+            movieList.innerHTML += movie_html;
+          })
         }, 500)
-        if(max_size) {
+        if (max_size) {
           console.log('done')
         }
       },
