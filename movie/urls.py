@@ -6,6 +6,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name='index'),
+    path("movies-json/", views.MovieJsonListView, name='movies-json-view'),
     path("categories", views.category, name='category'),
     path("actors", views.actor, name='actor'),
     path("directors", views.director, name='director'),

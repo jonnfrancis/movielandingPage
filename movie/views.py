@@ -5,6 +5,7 @@ from django.core.cache import cache
 from django.views.decorators.cache import cache_page, cache_control
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import View, TemplateView
 
 from .models import *
 
@@ -14,42 +15,47 @@ CACHE_TTL = 60 * 15
 # Create your views here.
 
 def index(request):
+    page_number = request.GET.get('page', 1)
     movies_list = Movie.objects.all()
-    paginator = Paginator(movies_list, 10)  # Show 10 movies per page
+    
+    # Paginate movies, showing 10 movies per page
+    paginator = Paginator(movies_list, 6)
+    
+    try:
+        movies = paginator.page(page_number)
+    except PageNotAnInteger:
+        movies = paginator.page(1)
+    except EmptyPage:
+        movies = paginator.page(paginator.num_pages)
+    
+    for movie in movies:
+        movie.Picture = movie.get_pictures.filter(id=movie.id)
 
-    page_number = request.GET.get('page')
-    if page_number:
-        try:
-            page_obj = paginator.page(page_number)
-        except PageNotAnInteger:
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            page_obj = paginator.page(paginator.num_pages)
+    cool_movies = list(Movie.objects.filter(cool=True))
+    random.shuffle(cool_movies)
+
+    random_movie = secrets.choice(movies_list)
+    random_movie2 = random.choice(movies_list)
+    number = random.randint(1, 10)
         
-        movies = []
-        for movie in page_obj:
-            background = movie.get_background.first()
-            background_url = background.image.url if background and hasattr(background, 'image') else ''
-            movies.append({
-                'id': movie.id,
-                'title': movie.title,
-                'year': movie.year,
-                'tagline': movie.tagline,
-                'type': movie.type.name if movie.type else '',
-                'background': background_url,
-            })
-
-        return JsonResponse({'movies': movies})
-
-    page_obj = paginator.page(1)
     context = {
-        'types': Type.objects.all(),
-        'movies': page_obj,
-        'page_obj': page_obj,
+        "types": Type.objects.all(),
+        "movies": movies,
+        'coolmovies': cool_movies,
+        'kindaCool': Movie.objects.filter(kindaCool=True),
+        "random": random_movie,
+        "random2": random_movie2,
+        "number": number
     }
+
     response = render(request, 'movie/index.html', context)
     response['Cache-Control'] = 'public, max-age=900'
     return response
+
+class MovieJsonListView(View):
+    def get(self, *args, **kwargs):
+        movies = list(Movie.objects.prefetch_related('get_pictures', 'get_background').values())
+        return JsonResponse({'data': movies}, safe=False)
 
 
 @cache_page(CACHE_TTL)
