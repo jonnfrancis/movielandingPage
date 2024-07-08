@@ -3,10 +3,11 @@ import debug_toolbar
 from django.conf import settings
 
 from . import views
+from .views import MovieJsonListView
 
 urlpatterns = [
     path("", views.index, name='index'),
-    path("movies-json/", views.MovieJsonListView, name='movies-json-view'),
+    path("movies-json/", MovieJsonListView.as_view(), name='movies_json'),
     path("categories", views.category, name='category'),
     path("actors", views.actor, name='actor'),
     path("directors", views.director, name='director'),
