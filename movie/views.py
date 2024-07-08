@@ -14,42 +14,35 @@ CACHE_TTL = 60 * 15
 # Create your views here.
 
 def index(request):
-    page_number = request.GET.get('page', 1)
     movies_list = Movie.objects.all()
-    
-    # Paginate movies, showing 10 movies per page
-    paginator = Paginator(movies_list, 6)
-    
-    try:
-        movies = paginator.page(page_number)
-    except PageNotAnInteger:
-        movies = paginator.page(1)
-    except EmptyPage:
-        movies = paginator.page(paginator.num_pages)
-    
-    for movie in movies:
-        movie.Picture = movie.get_pictures.filter(id=movie.id)
+    paginator = Paginator(movies_list, 10)  # Show 10 movies per page
 
-    cool_movies = list(Movie.objects.filter(cool=True))
-    random.shuffle(cool_movies)
+    page_number = request.GET.get('page')
+    if page_number:
+        try:
+            page_obj = paginator.page(page_number)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+        movies = [{
+            'id': movie.id,
+            'title': movie.title,
+            'year': movie.year,
+            'tagline': movie.tagline,
+            'type': movie.type,
+            'background': movie.get_background.first().url if movie.get_background.first() else '',
+        } for movie in page_obj]
 
-    random_movie = secrets.choice(movies_list)
-    random_movie2 = random.choice(movies_list)
-    number = random.randint(1, 10)
-        
+        return JsonResponse({'movies': movies})
+
+    page_obj = paginator.page(1)
     context = {
-        "types": Type.objects.all(),
-        "movies": movies,
-        'coolmovies': cool_movies,
-        'kindaCool': Movie.objects.filter(kindaCool=True),
-        "random": random_movie,
-        "random2": random_movie2,
-        "number": number
+        'types': Type.objects.all(),
+        'movies': page_obj,
+        'page_obj': page_obj,
     }
-
-    response = render(request, 'movie/index.html', context)
-    response['Cache-Control'] = 'public, max-age=900'
-    return response
+    return render(request, 'movie/index.html', context)
 
 
 @cache_page(CACHE_TTL)
