@@ -339,7 +339,7 @@
           spinnerBox.classList.add('not-visible')
           data.map(movie => {
             console.log(movie.id)
-            var movie_html = `
+            movieList.innerHTML +=  `
                                 <div class="movies-box">
                                     <a href="/movie/${movie.id}">
                                         <div class="movies-img">
@@ -349,11 +349,12 @@
                                         <div class="movie-type badge badge-secondary"><span>${movie.type}</span></div>
                                     </a>
                                 </div>`;
-            movieList.innerHTML += movie_html;
+            
           })
         }, 500)
         if (max_size) {
           console.log('done')
+          btns.innerHTML = "<h4>Cinematic recommendation complete 😉</h4>"
         }
       },
       error: function (error) {
