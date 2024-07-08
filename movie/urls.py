@@ -7,7 +7,7 @@ from .views import MovieJsonListView
 
 urlpatterns = [
     path("", views.index, name='index'),
-    path("movies-json/", MovieJsonListView.as_view(), name='movies_json'),
+    path("movies-json/<int:num_movies>/", MovieJsonListView.as_view(), name='movies_json'),
     path("categories", views.category, name='category'),
     path("actors", views.actor, name='actor'),
     path("directors", views.director, name='director'),

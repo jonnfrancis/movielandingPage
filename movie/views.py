@@ -54,8 +54,12 @@ def index(request):
 
 class MovieJsonListView(View):
     def get(self, *args, **kwargs):
-        movies = list(Movie.objects.prefetch_related('get_pictures', 'get_background').values())
-        return JsonResponse({'data': movies}, safe=False)
+        upper = kwargs.get('num_movies')
+        lower = upper - 6
+        movies = list(Movie.objects.prefetch_related('get_pictures', 'get_background').values()[lower:upper])
+        movies_size = len(Movie.objects.all())
+        size = True if upper >= movies_size else False
+        return JsonResponse({'data': movies, 'max': size}, safe=False)
 
 
 @cache_page(CACHE_TTL)
