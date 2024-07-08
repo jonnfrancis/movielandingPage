@@ -25,14 +25,19 @@ def index(request):
             page_obj = paginator.page(1)
         except EmptyPage:
             page_obj = paginator.page(paginator.num_pages)
-        movies = [{
-            'id': movie.id,
-            'title': movie.title,
-            'year': movie.year,
-            'tagline': movie.tagline,
-            'type': movie.type,
-            'background': movie.get_background.first().url if movie.get_background.first() else '',
-        } for movie in page_obj]
+        
+        movies = []
+        for movie in page_obj:
+            background = movie.get_background.first()
+            background_url = background.image.url if background and hasattr(background, 'image') else ''
+            movies.append({
+                'id': movie.id,
+                'title': movie.title,
+                'year': movie.year,
+                'tagline': movie.tagline,
+                'type': movie.type.name if movie.type else '',
+                'background': background_url,
+            })
 
         return JsonResponse({'movies': movies})
 
@@ -42,7 +47,9 @@ def index(request):
         'movies': page_obj,
         'page_obj': page_obj,
     }
-    return render(request, 'movie/index.html', context)
+    response = render(request, 'movie/index.html', context)
+    response['Cache-Control'] = 'public, max-age=900'
+    return response
 
 
 @cache_page(CACHE_TTL)
