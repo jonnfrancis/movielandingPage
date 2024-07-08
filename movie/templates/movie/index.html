@@ -320,28 +320,28 @@
 <script src="{% static 'movie/js/lightslider.js' %}"></script>
 <script src="{% static 'movie/js/script.js' %}"></script>
 <script>
-  const movieList = document.getElementById('movie-list-home')
-  const spinnerBox = document.getElementById('spinner-box')
-  const loadBtn = document.getElementById('load-more-btn1')
-  const btns = document.getElementById('btns')
-  let visible = 6
+  document.addEventListener('DOMContentLoaded', () => {
+        const movieList = document.getElementById('movie-list-home')
+        const spinnerBox = document.getElementById('spinner-box')
+        const loadBtn = document.getElementById('load-more-btn1')
+        const btns = document.getElementById('btns')
+        let visible = 6
 
-  const handleGetData = () => {
-    $.ajax({
-      type: 'GET',
-      url: `/movies-json/${visible}/`,
-      success: function (response) {
-        // console.log(response)
-        max_size = response.max
-        const data = response.data
-        spinnerBox.classList.remove('not-visible')
-        setTimeout(() => {
-          spinnerBox.classList.add('not-visible')
-          data.map(movie => {
-            console.log(movie.id)
-            movieList.innerHTML +=  `
-                                <div class="movies-box">
-                                    <a href="/movie/${movie.id}">
+        const handleGetData = () => {
+          $.ajax({
+            type: 'GET',
+            url: `/movies-json/${visible}/`,
+            success: function (response) {
+              // console.log(response)
+              max_size = response.max
+              const data = response.data
+              spinnerBox.classList.remove('not-visible')
+              setTimeout(() => {
+                spinnerBox.classList.add('not-visible')
+                data.map(movie => {
+                  console.log(movie.id)
+                  movieList.innerHTML += ` <div class="movies-box">
+                                   <a href="/movie/${movie.id}">
                                         <div class="movies-img">
                                             <img src="${movie.background}" loading="lazy" alt="">
                                         </div>
@@ -349,25 +349,26 @@
                                         <div class="movie-type badge badge-secondary"><span>${movie.type}</span></div>
                                     </a>
                                 </div>`;
-            
-          })
-        }, 500)
-        if (max_size) {
-          console.log('done')
-          btns.innerHTML = "<h4>Cinematic recommendation complete 😉</h4>"
-        }
-      },
-      error: function (error) {
-        console.log(error)
-      }
-    })
-  }
 
-  handleGetData()
-  loadBtn.addEventListener('click', (e) => {
-    e.preventDefault()
-    visible += 3
-    handleGetData()
-  })
+                })
+                if (max_size) {
+                  console.log('done')
+                  btns.innerHTML = "<h4>Cinematic recommendation complete 😉</h4>"
+                }
+              }, 500)
+            },
+            error: function (error) {
+              console.log(error)
+            }
+          })
+        }
+
+        handleGetData()
+        loadBtn.addEventListener('click', (e) => {
+          e.preventDefault()
+          visible += 3
+          handleGetData()
+        })
+      })
 </script>
 {% endblock %}
