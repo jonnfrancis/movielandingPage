@@ -4,7 +4,6 @@ import secrets
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page, cache_control
 from django.http import JsonResponse
-from django.template.loader import render_to_string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import *
@@ -17,6 +16,8 @@ CACHE_TTL = 60 * 15
 def index(request):
     page_number = request.GET.get('page', 1)
     movies_list = Movie.objects.all()
+    
+    # Paginate movies, showing 10 movies per page
     paginator = Paginator(movies_list, 6)
     
     try:
@@ -47,8 +48,7 @@ def index(request):
     }
     
     if request.is_ajax():
-        html = render_to_string('movie/movie_list.html', {'movies': movies})
-        return JsonResponse({'html': html})
+        return render(request, 'movie/movies_list.html', {'movies': movies})
     else:
         response = render(request, 'movie/index.html', context)
         response['Cache-Control'] = 'public, max-age=900'
