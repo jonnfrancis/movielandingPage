@@ -72,7 +72,7 @@ class MovieJsonListView(View):
                     'year': movie.year,
                     'tagline': movie.tagline,
                     'type': movie.type,
-                    'background': movie.get_background.first().url if movie.get_background.exists() else ''
+                    'background': movie.get_background.first() if movie.get_background.exists() else ''
                 })
 
             # Cache the data
