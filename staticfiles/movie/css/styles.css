@@ -45,6 +45,14 @@ li{
     background-color: #9DB2BF;
     transform: translateY(-35%);
 }
+
+.spinner-box {
+    display: flex;
+    justify-content: center;
+}
+.not-visible {
+    display: none;
+}
   
 
 /*===== HEADER =====*/
@@ -1674,11 +1682,4 @@ hr {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-.spinner-box {
-    display: flex;
-    justify-content: center;
-}
-.not-visible {
-    display: none;
 }
