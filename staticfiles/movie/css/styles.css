@@ -46,11 +46,15 @@ li{
     transform: translateY(-35%);
 }
 
-#spinner-box {
-    display: flex;
+#spinner-box.visible {
+    display: none;
     justify-content: center;
+    height: 150px;
 }
-.not-visible {
+#spinner-box.visible {
+    display: flex;
+}
+.spinner-box.not-visible {
     display: none;
 }
   
