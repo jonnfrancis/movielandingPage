@@ -46,16 +46,17 @@ li{
     transform: translateY(-35%);
 }
 
-#spinner-box.visible {
-    display: none;
+#spinner-box{
+    display: flex;
     justify-content: center;
     height: 150px;
+    visibility: hidden;
 }
 #spinner-box.visible {
-    display: flex;
+    visibility: visible;
 }
 .spinner-box.not-visible {
-    display: none;
+    visibility: hidden;
 }
   
 
