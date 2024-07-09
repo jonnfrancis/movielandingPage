@@ -17,8 +17,8 @@ CACHE_TTL = 60 * 15
 def index(request):
     movies = Movie.objects.all()
     
-    for movie in movies:
-        movie.Picture= movie.get_pictures.filter(id=movie.id)
+    # for movie in movies:
+    #     movie.Picture= movie.get_pictures.filter(id=movie.id)
 
     cool_movies = list(Movie.objects.filter(cool=True))
     random.shuffle(cool_movies)
@@ -29,7 +29,7 @@ def index(request):
         
     context = {
         "types": Type.objects.all(),
-        "movies": movies,
+        # "movies": movies,
         'coolmovies': cool_movies,
         'kindaCool': Movie.objects.filter(kindaCool=True),
         "random": random_movie,

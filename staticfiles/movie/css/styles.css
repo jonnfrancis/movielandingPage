@@ -46,7 +46,7 @@ li{
     transform: translateY(-35%);
 }
 
-.spinner-box {
+#spinner-box {
     display: flex;
     justify-content: center;
 }
