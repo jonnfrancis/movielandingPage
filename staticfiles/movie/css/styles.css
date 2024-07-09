@@ -1675,6 +1675,10 @@ hr {
     justify-content: center;
     align-items: center;
 }
+.spinner-box {
+    display: flex;
+    justify-content: center;
+}
 .not-visible {
     display: none;
 }

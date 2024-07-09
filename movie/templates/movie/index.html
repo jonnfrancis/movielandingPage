@@ -297,7 +297,7 @@
   {% endfor %} -->
 </section>
 
-<div style="display: flex; justify-content: center;" id="spinner-box" class="spinner-box not-visible">
+<div id="spinner-box" class="spinner-box not-visible">
   <lottie-player src="{% static 'movie/img/spinner.json' %}" background="transparent" speed="1"
     style="width: 150px; height: 150px;" loop autoplay></lottie-player>
 </div>
@@ -338,7 +338,7 @@
         setTimeout(() => {
           spinnerBox.classList.add('not-visible')
           data.map(movie => {
-            console.log(movie)
+            // console.log(movie)
             movieList.innerHTML +=  ` <div class="movies-box">
                                    <a href="/${movie.id}">
                                         <div class="movies-img">
@@ -352,8 +352,7 @@
           })
           if (max_size) {
             console.log('done')
-            $('#load-more-btn').hide();
-            btns.innerHTML = "<h4>Cinematic recommendation complete 🍻🍿  </h4>"
+            loadBtn.style.display = 'none';
           }
         }, 500)
       },
