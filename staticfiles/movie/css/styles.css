@@ -47,16 +47,15 @@ li{
 }
 
 #spinner-box{
-    display: flex;
+    display: none;
     justify-content: center;
     height: 150px;
-    visibility: hidden;
 }
 #spinner-box.visible {
-    visibility: visible;
+    display: flex;
 }
 .spinner-box.not-visible {
-    visibility: hidden;
+    display: none;
 }
   
 
