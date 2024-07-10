@@ -52,9 +52,10 @@ class MovieJsonListView(View):
 
         if not movies:
             # If not, fetch the data from the database
-            movies_queryset = Movie.objects.prefetch_related('get_pictures', 'get_background').order_by('-imdb_rating')[lower:upper]
+            movies_queryset = Movie.objects.prefetch_related('get_pictures', 'get_background').order_by('-imdb_rating')
+            ordered_queryset = movies_queryset[lower:upper]
             movies = []
-            for movie in movies_queryset:
+            for movie in ordered_queryset:
                 background = movie.get_background.first()
                 background_url = background.image if background else ''  # Access the background image URL
 
