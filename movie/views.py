@@ -15,6 +15,11 @@ CACHE_TTL = 60 * 15
 # Create your views here.
 
 def index(request):
+    cached_data = cache.get('index_view_data')
+    if cached_data:
+        print('Loaded by Cache')
+        return render(request, 'movie/index.html', cached_data)
+
     movies = Movie.objects.all()
     
     # for movie in movies:
@@ -25,20 +30,22 @@ def index(request):
 
     random_movie=secrets.choice(movies)    
     random_movie2=random.choice(movies)
+    if random_movie2 == random_movie:
+        random_movie2 = random.choice(movies)
     number=random.randint(1,10)
         
     context = {
         "types": Type.objects.all(),
-        # "movies": movies,
         'coolmovies': cool_movies,
         'kindaCool': Movie.objects.filter(kindaCool=True),
         "random": random_movie,
         "random2": random_movie2,
         "number": number
     }
+    print('Loaded by DB')
+    cache.set('index_view_data', context, CACHE_TTL)
     
     response = render(request, 'movie/index.html', context)
-    response['Cache-Control'] = 'public, max-age=900'
     return response
 
 class MovieJsonListView(View):
@@ -47,12 +54,12 @@ class MovieJsonListView(View):
         lower = upper - 6
 
         # Check if the data is in the cache
-        cache_key = f'movies_{lower}_{upper}'
+        cache_key = f'movies_{lower}_{upper}_ordered_by_rating_and_date'
         movies = cache.get(cache_key)
 
         if not movies:
             # If not, fetch the data from the database
-            movies_queryset = Movie.objects.prefetch_related('get_pictures', 'get_background')[lower:upper]
+            movies_queryset = Movie.objects.prefetch_related('get_pictures', 'get_background').order_by('-imdb_rating', '-releaseDate')[lower:upper]
             movies = []
             for movie in movies_queryset:
                 background = movie.get_background.first()
