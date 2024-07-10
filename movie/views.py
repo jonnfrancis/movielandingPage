@@ -47,34 +47,32 @@ class MovieJsonListView(View):
         lower = upper - 6
 
         # Check if the data is in the cache
-        cache_key = f'movies_{lower}_{upper}_ordered_by_rating'
+        cache_key = f'movies_{lower}_{upper}'
         movies = cache.get(cache_key)
 
         if not movies:
             # If not, fetch the data from the database
-            movies_queryset = Movie.objects.prefetch_related('get_pictures', 'get_background').order_by('-imdb_rating')
-            ordered_queryset = movies_queryset[lower:upper]
+            movies_queryset = Movie.objects.prefetch_related('get_pictures', 'get_background')[lower:upper]
             movies = []
-            for movie in ordered_queryset:
+            for movie in movies_queryset:
                 background = movie.get_background.first()
-                background_url = background.image if background else ''  # Access the background image URL
+                background_url = background.image if background else '' 
 
                 movies.append({
                     'id': movie.id,
                     'title': movie.title,
                     'year': movie.year,
                     'tagline': movie.tagline,
-                    'type': movie.type.type if movie.type else '',  # Access the type field from the Type model
+                    'type': movie.type.type if movie.type else '',  
                     'background': background_url
                 })
 
             # Cache the data
-            cache.set(cache_key, movies, timeout=3600)  # Cache timeout set to 1 hour
+            cache.set(cache_key, movies, timeout=3600)
 
         movies_size = Movie.objects.count()
         size = upper >= movies_size
         return JsonResponse({'data': movies, 'max': size}, safe=False)
-
 
 
 @cache_page(CACHE_TTL)
