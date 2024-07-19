@@ -2,6 +2,16 @@
 {% load static %}
 
 {%  block title   %}Error 404 | {%  endblock  %} 
+{% block head %}
+<style>
+@keyframes rotateMagnify {
+    0% { transform: rotate(0deg) scale(1); }
+    33% { transform: rotate(360deg) scale(1.5); }
+    66% { transform: rotate(720deg) scale(1.5); }
+    100% { transform: rotate(1080deg) scale(1); }
+}
+</style>
+{% endblock %}
 
 {% block body %}
       
