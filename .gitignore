@@ -1,3 +1,4 @@
 /landingpage/__pycache__
 venv/
 .env
+db.json

@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.views.decorators.cache import cache_page, cache_control
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import View, TemplateView
+from django.views.generic import View
 
 from .models import *
 
@@ -17,13 +17,10 @@ CACHE_TTL = 60 * 15
 def index(request):
     cached_data = cache.get('index_view_data')
     if cached_data:
-        print('Loaded by Cache')
+        # print('Loaded by Cache')
         return render(request, 'movie/index.html', cached_data)
 
     movies = Movie.objects.all()
-    
-    # for movie in movies:
-    #     movie.Picture= movie.get_pictures.filter(id=movie.id)
 
     cool_movies = list(Movie.objects.filter(cool=True))
     random.shuffle(cool_movies)
