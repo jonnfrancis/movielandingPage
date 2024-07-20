@@ -314,6 +314,7 @@
     const movieList = document.getElementById('movies-list-home')
     const spinnerBox = document.getElementById('spinner-box')
     const loadBtn = document.getElementById('load-more-btn1')
+    const btns = document.getElementById('btns')
     let visible = 6
 
     const handleGetData = () => {
@@ -321,6 +322,7 @@
         type: 'GET',
         url: `/movies-json/${visible}/`,
         success: function (response) {
+          // console.log(response)
           max_size = response.max
           const data = response.data
           spinnerBox.classList.remove('not-visible')
@@ -329,15 +331,17 @@
             spinnerBox.classList.remove('visible');
             spinnerBox.classList.add('not-visible')
             data.map(movie => {
+              // console.log(movie)
               movieList.innerHTML += ` <div class="movies-box">
-                                                  <a href="/${movie.id}">
-                                                      <div class="movies-img">
-                                                          <img src="${movie.background}" loading="lazy" alt="${movie.background_alt}">
-                                                      </div>
-                                                      <div class="text">${movie.title} <span class="movie--year badge">${movie.year}</span> <br> <span style="color: #6998AB; text-align: center;">${movie.tagline}</span></div>
-                                                      <div class="movie-type badge badge-secondary"><span>${movie.type}</span></div>
-                                                  </a>
-                                              </div>`;
+                                   <a href="/${movie.id}">
+                                        <div class="movies-img">
+                                          <img src="${movie.background}" loading="lazy" alt="${movie.background_alt}">
+                                        </div>
+                                        <div class="text">${movie.title} <span class="movie--year badge">${movie.year}</span> <br> <span style="color: #6998AB; text-align: center;">${movie.tagline}</span></div>
+                                        <div class="movie-type badge badge-secondary"><span>${movie.type}</span></div>
+                                    </a>
+                                </div>`;
+
             })
             if (max_size) {
               console.log('done')
@@ -351,12 +355,12 @@
       })
     }
 
+    handleGetData()
     loadBtn.addEventListener('click', (e) => {
       e.preventDefault()
       visible += 6
       handleGetData()
     })
-  });
+  })
 </script>
-
 {% endblock %}
