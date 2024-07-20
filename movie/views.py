@@ -146,19 +146,23 @@ def moviePage(request, movie_id):
 
 @cache_page(CACHE_TTL)
 def type_view(request):
-    type_id = request.GET.get('type_id', None)
-    if type_id is None:
+    type_name = request.GET.get('type_id', None)  
+    if type_name is None:
         movies = Movie.objects.filter(kindaCool=True)
     else:
-        movies = Movie.objects.filter(type=type_id)
+        try:
+            movie_type = Type.objects.get(type=type_name)
+            movies = Movie.objects.filter(type=movie_type)
+        except Type.DoesNotExist:
+            movies = Movie.objects.none() 
+    
     types = Type.objects.all()
 
     return render(request, 'movie/types.html', {
         "types": types,
-        "type_id": type_id,
+        "type_name": type_name,
         "movies": movies
     })
-
 def workon(request): 
     message = "This is still under construction"
     return render(request, 'movie/wait.html',{
