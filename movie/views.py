@@ -69,7 +69,7 @@ class MovieJsonListView(View):
                     'year': movie.year,
                     'tagline': movie.tagline,
                     'type': movie.type.type if movie.type else '',  
-                    'background': background_url
+                    'background': background_url,
                     'background_alt': background_alt
                 })
 
