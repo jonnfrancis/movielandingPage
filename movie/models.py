@@ -37,7 +37,7 @@ class Type(models.Model):
         return f"{self.type}"
 
     def get_absolute_url(self):
-        return f'/types?type_id={self.type}/'
+        return f'/types?type_id={self.type}'
 
 
 class Movie(models.Model):

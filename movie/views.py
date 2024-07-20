@@ -154,7 +154,7 @@ def type_view(request):
             movie_type = Type.objects.get(type=type_name)
             movies = Movie.objects.filter(type=movie_type)
         except Type.DoesNotExist:
-            movies = Movie.objects.none() 
+            movies = Movie.objects.filter(kindaCool=True)
     
     types = Type.objects.all()
 
