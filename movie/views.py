@@ -150,7 +150,7 @@ def type_view(request):
     if type_id is None:
         movies = Movie.objects.filter(kindaCool=True)
     else:
-        movies = Movie.objects.filter(type_id=type_id)
+        movies = Movie.objects.filter(type=type_id)
     types = Type.objects.all()
 
     return render(request, 'movie/types.html', {

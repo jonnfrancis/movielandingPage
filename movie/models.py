@@ -13,9 +13,6 @@ class Category(models.Model):
     def __str__(self):
         return f"{self.category}"
 
-    def get_absolute_url(self):
-        return f'/categories?categories={self.id}/'
-
 
 class Actor(models.Model):
     name = models.CharField(max_length=60)
@@ -38,6 +35,9 @@ class Type(models.Model):
 
     def __str__(self):
         return f"{self.type}"
+
+    def get_absolute_url(self):
+        return f'/categories?categories={self.id}/'
 
 
 class Movie(models.Model):

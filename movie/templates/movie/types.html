@@ -9,7 +9,7 @@
     <ul class="category-list">
         {% for type in types %}
         <li>
-            <a href="{% url 'type' %}?type_id={{ type.id }}" class="type-link" data-type-id="{{ type.id }}"
+            <a href="{% url 'type' %}?type_id={{ type.type }}" class="type-link" data-type-id="{{ type.id }}"
                 id="category">{{ type.type }}</a>
         </li>
         {% endfor %}
