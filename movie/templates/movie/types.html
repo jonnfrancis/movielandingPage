@@ -1,7 +1,13 @@
 {% extends "movie/layout.html" %}
 {% load static %}
 
-{%  block title   %}Genre | {%  endblock  %} 
+{% block title %}
+    {% if type_name %}
+        {{ type_name }} | Genre |
+    {% else %}
+        Genre |
+    {% endif %}
+{% endblock %}
 
 {% block body %}
 <div id="tagsh">

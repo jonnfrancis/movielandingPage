@@ -1,2 +1,3 @@
 User-agent: *
-Dissallow: /admin/
+Disallow: /admin/
+Disallow:/workon
