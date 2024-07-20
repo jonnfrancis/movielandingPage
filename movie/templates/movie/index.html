@@ -102,7 +102,7 @@
             </div>
             <div class="col-xl-5 col-lg-12 col-md-12 trailor-video">
               <a href="{{movie.trailer}}" class="video-open playbtn">
-                <img src="../static/movie/img/play.png" class="play" alt="" />
+                <img src="../static/movie/img/play.png" class="play" alt="Binge Play Now" />
                 <span class="w-trailor">Watch Trailer</span>
               </a>
             </div>
@@ -135,7 +135,7 @@
                       <a href="javascript:void(0);" tabindex="0">
                         <div class="res-logo">
                           <div class="channel-logo">
-                            <img src="../static/movie/img/logo.png" class="c-logo" alt="">
+                            <img src="../static/movie/img/logo.png" class="c-logo" alt="Binge Pot">
                           </div>
                         </div>
                       </a>
@@ -147,7 +147,7 @@
                       </div>
                       <div class="d-flex align-items-center series mb-4">
                         <a href="javascript:void(0);">
-                          <img src="../static/movie/img/trending-label.png" class="img-fluid" alt="">
+                          <img src="../static/movie/img/trending-label.png" class="img-fluid" alt="Binge Pot Trending">
                         </a>
                         <span class="text-gold ml-3">#{{number}} in {{random2.type}} Today</span>
                       </div>
@@ -215,7 +215,7 @@
       <!--showcase-box------------------->
       <a href="{%url 'moviePage' movie.id %}">
         <div class="showcase-box">
-          <img src="{{movie.get_pictures.first}}" loading="lazy" />
+          <img src="{{ movie.get_pictures.first.image }}" alt="{{ movie.get_pictures.first.altText }}" loading="lazy" />
         </div>
       </a>
     </li>
@@ -267,7 +267,8 @@
       </div>
       <div class="col-lg-6">
         <div class="parallax-img">
-          <a href="#"><img src="{{random.get_background.first}}" alt="" loading="lazy" class="img-fluid h-100" /></a>
+          <a href="#"><img src="{{random.get_background.first.image}}" alt="{{random.get_background.first.altText}}"
+              loading="lazy" class="img-fluid h-100" /></a>
         </div>
       </div>
     </div>
@@ -309,55 +310,53 @@
 <script src="{% static 'movie/js/lightslider.js' %}"></script>
 <script src="{% static 'movie/js/script.js' %}"></script>
 <script>
-  const movieList = document.getElementById('movies-list-home')
-  const spinnerBox = document.getElementById('spinner-box')
-  const loadBtn = document.getElementById('load-more-btn1')
-  const btns = document.getElementById('btns')
-  let visible = 6
+  document.addEventListener('DOMContentLoaded', function () {
+    const movieList = document.getElementById('movies-list-home')
+    const spinnerBox = document.getElementById('spinner-box')
+    const loadBtn = document.getElementById('load-more-btn1')
+    let visible = 6
 
-  const handleGetData = () => {
-    $.ajax({
-      type: 'GET',
-      url: `/movies-json/${visible}/`,
-      success: function (response) {
-        // console.log(response)
-        max_size = response.max
-        const data = response.data
-        spinnerBox.classList.remove('not-visible')
-        spinnerBox.classList.add('visible');
-        setTimeout(() => {
-          spinnerBox.classList.remove('visible');
-          spinnerBox.classList.add('not-visible')
-          data.map(movie => {
-            // console.log(movie)
-            movieList.innerHTML +=  ` <div class="movies-box">
-                                   <a href="/${movie.id}">
-                                        <div class="movies-img">
-                                            <img src="${movie.background}" loading="lazy" alt="">
-                                        </div>
-                                        <div class="text">${movie.title} <span class="movie--year badge">${movie.year}</span> <br> <span style="color: #6998AB; text-align: center;">${movie.tagline}</span></div>
-                                        <div class="movie-type badge badge-secondary"><span>${movie.type}</span></div>
-                                    </a>
-                                </div>`;
-            
-          })
-          if (max_size) {
-            console.log('done')
-            loadBtn.style.display = 'none';
-          }
-        }, 1800)
-      },
-      error: function (error) {
-        console.log(error)
-      }
+    const handleGetData = () => {
+      $.ajax({
+        type: 'GET',
+        url: `/movies-json/${visible}/`,
+        success: function (response) {
+          max_size = response.max
+          const data = response.data
+          spinnerBox.classList.remove('not-visible')
+          spinnerBox.classList.add('visible');
+          setTimeout(() => {
+            spinnerBox.classList.remove('visible');
+            spinnerBox.classList.add('not-visible')
+            data.map(movie => {
+              movieList.innerHTML += ` <div class="movies-box">
+                                                  <a href="/${movie.id}">
+                                                      <div class="movies-img">
+                                                          <img src="${movie.background}" loading="lazy" alt="${movie.background_alt}">
+                                                      </div>
+                                                      <div class="text">${movie.title} <span class="movie--year badge">${movie.year}</span> <br> <span style="color: #6998AB; text-align: center;">${movie.tagline}</span></div>
+                                                      <div class="movie-type badge badge-secondary"><span>${movie.type}</span></div>
+                                                  </a>
+                                              </div>`;
+            })
+            if (max_size) {
+              console.log('done')
+              loadBtn.style.display = 'none';
+            }
+          }, 1800)
+        },
+        error: function (error) {
+          console.log(error)
+        }
+      })
+    }
+
+    loadBtn.addEventListener('click', (e) => {
+      e.preventDefault()
+      visible += 6
+      handleGetData()
     })
-  }
-
-  handleGetData()
-  loadBtn.addEventListener('click', (e) => {
-    e.preventDefault()
-    visible += 6
-    handleGetData()
-  })
+  });
 </script>
+
 {% endblock %}

@@ -61,6 +61,7 @@ class MovieJsonListView(View):
             for movie in movies_queryset:
                 background = movie.get_background.first()
                 background_url = background.image if background else '' 
+                background_alt = background.altText if background else ''
 
                 movies.append({
                     'id': movie.id,
@@ -69,6 +70,7 @@ class MovieJsonListView(View):
                     'tagline': movie.tagline,
                     'type': movie.type.type if movie.type else '',  
                     'background': background_url
+                    'background_alt': background_alt
                 })
 
             # Cache the data
