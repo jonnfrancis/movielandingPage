@@ -60,6 +60,12 @@ class Movie(models.Model):
     def __str__(self):
         return f"{self.title} - {self.releaseDate}"
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['imdb_rating']),
+            models.Index(fields=['releaseDate']),
+        ]
+
     def get_absolute_url(self):
         return f'/{self.id}'
 
