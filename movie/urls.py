@@ -21,7 +21,7 @@ urlpatterns = [
     path("movies-json/<int:num_movies>/", MovieJsonListView.as_view(), name='movies_json'),
     path("categories", views.category, name='category'),
     path("robots.txt/", TemplateView.as_view(template_name="robots.txt", content_type="text/plain") ), 
-    path('sitemap.xml/', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
+    path('sitemap.xml/', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("actors", views.actor, name='actor'),
     path("directors", views.director, name='director'),
     path("<int:movie_id>", views.moviePage, name='moviePage'),
