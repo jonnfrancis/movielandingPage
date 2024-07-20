@@ -13,6 +13,9 @@ class Category(models.Model):
     def __str__(self):
         return f"{self.category}"
 
+    def get_absolute_url(self):
+        return f'/categories?categories={self.id}/'
+
 
 class Actor(models.Model):
     name = models.CharField(max_length=60)
@@ -56,6 +59,9 @@ class Movie(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.releaseDate}"
+
+    def get_absolute_url(self):
+        return f'/{self.id}'
 
 
 class Photo(models.Model):
