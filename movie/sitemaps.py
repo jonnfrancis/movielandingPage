@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from .models import Category, Movie
+from .models import Type, Movie
 
 class StaticSitemap(Sitemap):
     def items(self):
@@ -12,7 +12,7 @@ class StaticSitemap(Sitemap):
 
 class CategorySitemap(Sitemap):
     def items(self):
-        return Category.objects.all()
+        return Type.objects.all()
 
 class MoviepageSitemap(Sitemap):
     def items(self):
